@@ -228,4 +228,120 @@ pub fn render(scene: &Scene, image_width: usize, image_height: usize) -> Vec<u8>
 
 ### Speed
 
-TODO: Speed
+|                    | Three Spheres | Big Scene | Cornell Box | Perlin and Earth |
+| ------------------ | ------------- | --------- | ----------- | ---------------- |
+| **BVH**            | 4668,2 ms     | 55679 ms  | 46857 ms    | 19210 ms         |
+| **Multithreading** | 550,87 ms     | 7631,3 ms | 5421,2 ms   | 2032,8 ms        |
+
+As you can see, it's quite a bit faster !
+All of the scenes run between 86,29% and 89,42% faster.
+
+And there isn't a big difference between scenes,
+which makes sense since we're not changing how each pixel is processed, but we're now computing each pixels in parallel.
+
+## No Recurse
+
+This title is a bit of a lie, since I'm not really getting rid of all recursive function call in the program.
+
+This is mostly about a specific function, that handle the computation of the color of a ray.
+This is tricky since the ray has to bounce multiple times on the objects until it has a credible color.
+One naive way of implementing it is by having a recursive function, that calls itself with a limit (the ray depth).
+
+The problem with this, is that it can be quite tricky for a compiler to optimize a recursive function.
+
+Luckily, in our case, we can change this by using a loop.
+
+### Implementation
+
+So the old function looked like this :
+
+```rust
+
+fn ray_color(
+    ray: &Ray,
+    background_color: &Color,
+    hittable_world: &HittableWorld,
+    depth: u32,
+) -> Color {
+    if depth == 0 {
+        return Color::black();
+    }
+
+    let record = hittable_world.hit_no_limit(ray);
+
+    if record.is_none() {
+        return *background_color;
+    }
+    let record = record.unwrap();
+
+    let emitted = record
+        .material()
+        .emit(record.u(), record.v(), record.point());
+
+    let scatter = record.material().scatter(ray, &record);
+    if scatter.is_none() {
+        return emitted;
+    }
+    let scatter_result = scatter.unwrap();
+
+    let ray_color = ray_color(
+        &scatter_result.scattered,
+        background_color,
+        hittable_world,
+        depth - 1,
+    );
+
+    emitted + scatter_result.attenuation * ray_color
+}
+```
+
+We can see that we shoot a ray, if we don't hit anything or don't have any scatter, we return. Otherwise, we compute ray color once again and multiply it to emitted + attenuation.
+
+The non-recursive version looks like :
+
+```rust
+fn ray_color(
+    mut ray: Ray,
+    background_color: &Color,
+    hittable_list: &HittableWorld,
+    rng: &mut impl RngCore,
+) -> Color {
+    let mut color = Color::white();
+    let mut emitted = Color::black();
+
+    for _ in 0..MAX_DEPTH {
+        let record = hittable_list.hit_no_limit(&ray);
+
+        if record.is_none() {
+            return *background_color * color;
+        }
+        let record = record.unwrap();
+        let emit = record
+            .material()
+            .emit(record.u(), record.v(), record.point());
+        emitted += color * emit;
+
+        let scatter = record.material().scatter(&ray, &record, rng);
+        if scatter.is_none() {
+            return emitted;
+        }
+
+        let scatter = scatter.unwrap();
+        color *= scatter.attenuation;
+        ray = scatter.scattered;
+
+        if color.dot(&color) < 0.0001 {
+            return emitted;
+        }
+    }
+
+    emitted
+}
+```
+
+In this case there's a loop that does the "recursion".
+We also have two colors we store outside of the loop (color and emitted) and we declare the ray as muttable so we can modify it to be the value of the next ray to process.
+
+### Speed
+
+TODO : Speed
