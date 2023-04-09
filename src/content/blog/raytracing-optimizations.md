@@ -4,18 +4,18 @@ pubDatetime: 2023-04-11
 featured: false
 draft: false
 tags:
-  - optimisation
+  - optimization
   - raytracing
   - english
   - sae
-description: Technical blogpost on how I optimised a Raytracer using various methods.
+description: Technical blogpost on how I optimized a Raytracer using various methods.
 ---
 
 During the second module of the third year at SAE Institute, we had to do a project in a naive way, that we would then optimize.
 
 Since I enjoy computer graphics, I decided to follow [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html) written by Peter Shirley.
 And since I also enjoy Rust, it's the language I chose for this project.
-Although there are some Rust specific stuff, most of the optimisations can be applied in any programming language, so don't be scared if you don't know any Rust.
+Although there are some Rust specific stuff, most of the optimizations can be applied in any programming language, so don't be scared if you don't know any Rust.
 
 You can see the code on this repo : <https://github.com/St0wy/raytracing/>
 
@@ -26,9 +26,9 @@ You can see the code on this repo : <https://github.com/St0wy/raytracing/>
 When optimizing, it can be sometimes a good idea to change what the program does.
 For example, you could reduce the number of objects in a scene, so that it can be computed faster.
 In this case, I wanted to keep the image intact.
-The goal was to have the same image before and after the optimisations.
+The goal was to have the same image before and after the optimizations.
 
-To make this possible, in decided on four scenes that would showcase the different features of the raytracer and how some optimisations could impact different cases.
+To make this possible, in decided on four scenes that would showcase the different features of the raytracer and how some optimizations could impact different cases.
 
 They are all rendered on a 400x400 image with 200 samples per pixel and a ray depth of 30.
 
@@ -43,7 +43,7 @@ From front to back :
 2. Metalic
 3. Lambertian (diffuse)
 
-![Scene with three spheres](/raytracing-optimisations/three-spheres.png)
+![Scene with three spheres](/raytracing-optimizations/three-spheres.png)
 
 ### Big Scene
 
@@ -52,7 +52,7 @@ A big scene with a lot of spheres (~400, some are outside of the camera) of diff
 The blurry spheres on the front are here to simulate motion blur.
 It's like they're moving while the picture is being taken.
 
-![big raytraced scene with hundreds of balls](/raytracing-optimisations/big-scene.png)
+![big raytraced scene with hundreds of balls](/raytracing-optimizations/big-scene.png)
 
 ### Cornell Box
 
@@ -60,14 +60,14 @@ This is an image that is often reproduced to try the capacites of the lighting s
 It's a nice test to see the reflexion of the green wall onto the white box.
 Usually the boxes are rotated, but I didn't implement that in my renderer.
 
-![Raytraced image of the cornell box](/raytracing-optimisations/cornell-box.png)
+![Raytraced image of the cornell box](/raytracing-optimizations/cornell-box.png)
 
 ### Perlin and Earth
 
 In this image, there is a big sphere as the ground, that has a perlin noise texture.
 The sphere on top has an image texture of the earth.
 
-![image of a sphere with perlin noise texture and above it a sphere with a texture that looks like the earth](/raytracing-optimisations/perlin-and-earth.png)
+![image of a sphere with perlin noise texture and above it a sphere with a texture that looks like the earth](/raytracing-optimizations/perlin-and-earth.png)
 
 ## Naive Implementation
 
@@ -77,11 +77,13 @@ To have a base to compare to, I will show you the time it take to run each scene
 | ------------- | --------- | ----------- | ---------------- |
 | 3624,3 ms     | 405330 ms | 35313 ms    | 18502 ms         |
 
+(This is measured on my laptop, with an 8 core AMD Ryzen 9 5900HS at 3.30 GHz and 24.0 GB of RAM)
+
 I measured these using the [Criterion.rs](https://github.com/bheisler/criterion.rs) benchmarking library.
 
 In this case, the project is implemented as an almost exact copy of the c++ code provided, but translated in Rust.
 
-As you can see, there is a big hit on performance from the amount of objects in the big scene. We'll see how we can reduce that with the first optimisation.
+As you can see, there is a big hit on performance from the amount of objects in the big scene. We'll see how we can reduce that with the first optimization.
 
 ## Data Oriented
 
@@ -344,4 +346,131 @@ We also have two colors we store outside of the loop (color and emitted) and we 
 
 ### Speed
 
-TODO : Speed
+|                    | Three Spheres | Big Scene | Cornell Box | Perlin and Earth |
+| ------------------ | ------------- | --------- | ----------- | ---------------- |
+| **Multithreading** | 550,87 ms     | 7631,3 ms | 5421,2 ms   | 2032,8 ms        |
+| **No Recursion**   | 549,23 ms     | 7584,4 ms | 4141,5 ms   | 1694,8 ms        |
+
+As we can see, in this case there isn't a big difference for the three spheres and the big scene.
+But suprisingly, there's a 23,61% speed increase for the cornell box and 16,63% for the perlin and earth scene.
+
+I don't really know why this is. My guess is that when rendering an image that has lighting or that's heavilly based on textures, this change matters a lot.
+
+## Glam
+
+Up until now, the program used a homemade vector type.
+This can work, and did until now, but I wasn't using all of the tool possible to make it as fast as possible.
+One of these are [SIMD](https://en.wikipedia.org/wiki/Single_instruction,_multiple_data).
+Although a vector 3 doesn't quite fit in an SSX register, if you add padding it does, and it's possible to then use the SIMD instructions for additions, mutliplicatiosn etc.
+
+### Implementation
+
+Since I didn't want to spend too much time on this, I decided to use the [Glam](https://crates.io/crates/glam) library. Also, the library author probably did a better job than I ever could.
+
+Once the library was added to the project, I replaced every usage of the old `Vec3`, by Glam's `Vec3A`.
+This is the type that adds padding and can profit of SIMD.
+
+### Speed
+
+|                  | Three Spheres | Big Scene | Cornell Box | Perlin and Earth |
+| ---------------- | ------------- | --------- | ----------- | ---------------- |
+| **No Recursion** | 549,23 ms     | 7584,4 ms | 4141,5 ms   | 1694,8 ms        |
+| **Glam**         | 500,61 ms     | 7590,2 ms | 3683,3 ms   | 1469,7 ms        |
+
+Appart from the big scene, this change brings an improvement between 8,85% and 13,28%.
+
+My guess from the big scene is that the cost in this case is mostly the BVH traversal rather than the math computation.
+
+## Faster Random
+
+In this implementation of the raytracer, it's often needed to get a random value.
+For example, when a ray is shot, it's moved in a random direction for the [anti-aliasing](https://en.wikipedia.org/wiki/Spatial_anti-aliasing) effect.
+
+Rust doesn't have random number generation, this means that you have to use a library for that.
+The "default" one is the [rand](https://crates.io/crates/rand) crate.
+With it, you can get a random number generator using the `thread_rng()` function :
+
+```rust
+use rand::prelude::*;
+
+let rng = thread_rng();
+let num: u8 = rng.gen();
+```
+
+And since Rust is focused on safety, the default RNG is cryptographically secure, which means that it's hard to predict the next number based on previously generated numbers.
+The problem with this is that it generally makes the generator slower.
+And since in our case we don't need to be cryptographically secure, we could use an other generator that is faster.
+
+### Implementation
+
+So how to we replace it ?
+Well sadly we can't just replace the RNG supplied by `thread_rng()`.
+This means I had to manually create the generators in each thread and then supply a mutable reference to them to each part of the program that needs it.
+
+After reading about the different generators on [The Rust Rand Book](https://rust-random.github.io/book/guide-rngs.html#basic-pseudo-random-number-generators-prngs), I decided to use the `Xoshiro256Plus` generator.
+For this I had to add the crate `rand_xoshiro` to the project.
+
+In case I want to use a faster generator in the future, the mutable reference is passed using the `RngCore` trait which the base interface of all generators.
+
+```rust
+fn ray_color(
+    mut ray: Ray,
+    background_color: &Color,
+    hittable_list: &HittableWorld,
+    rng: &mut impl RngCore,
+) -> Color {...}
+```
+
+### Speed
+
+|                   | Three Spheres | Big Scene | Cornell Box | Perlin and Earth |
+| ----------------- | ------------- | --------- | ----------- | ---------------- |
+| **Glam**          | 500,61 ms     | 7590,2 ms | 3683,3 ms   | 1469,7 ms        |
+| **Faster Random** | 485,97 ms     | 7418,7 ms | 3239,9 ms   | 1386,8 ms        |
+
+The improvement is not a big one, but we do get an improvement between 2,26% and 12,04%.
+
+## Compilation Flags
+
+What if we could not change the code at all and make it run faster ?
+Well, we can !
+
+Although compiling in release already makes the code a lot faster, there are other tweaks that can be done to make the code faster.
+Most of them are described in [The Rust Performance Book](https://nnethercote.github.io/perf-book/build-configuration.html).
+
+You can read the book if you want to know more, but here is a quick summary of each options :
+
+- LTO (Link-time Optimization) : Adds optimizations when the program is getting linked
+- Codegen Units : By default the Rust compiler tries to parallelize the compilation of your code. You can force it to only use one codegen unit so that it can find more optimizations.
+- CPU Specific Instructions : You can tell the program to compile for the current architecture to potentially use more modern instructions that could be faster.
+- Abort on `panic!` : Rust doesn't have exceptions, but it does have a panics, that can be catched. If you don't catch them, you can disable it to gain some performance.
+
+### Speed
+
+|                    | Three Spheres | Big Scene | Cornell Box | Perlin and Earth |
+| ------------------ | ------------- | --------- | ----------- | ---------------- |
+| **Faster Random**  | 485,97 ms     | 7418,7 ms | 3239,9 ms   | 1386,8 ms        |
+| **Compiler Flags** | 409,45 ms     | 5872,5 ms | 3119 ms     | 1289,1 ms        |
+
+This doesn't change much for the cornell box (3,73% faster) but for the big scene it's 20,84% faster !
+
+## Conclusion
+
+|                       | Three Spheres | Big Scene | Cornell Box | Perlin and Earth |
+| --------------------- | ------------- | --------- | ----------- | ---------------- |
+| **Naive**             | 3624,3 ms     | 405330 ms | 35313 ms    | 18502 ms         |
+| **Optimized version** | 409,45 ms     | 5872,5 ms | 3119 ms     | 1289,1 ms        |
+
+That's quite a big leap in performances !
+Let's look at it in a more visual way.
+
+![Graph of the performance improvement](/raytracing-optimizations/graph1.png)
+
+We can't see much after the multithreading, so let's zoom in a bit.
+
+![Graph of the performance improvement](/raytracing-optimizations/graph2.png)
+
+And that's it for the optimizations !
+It's not quite real-time, the GPU might be needed for that. And there are probably other ways to improve the project, such as having a better way to handle the BVH.
+
+Thanks for reading !
