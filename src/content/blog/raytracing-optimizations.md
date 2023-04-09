@@ -28,7 +28,7 @@ For example, you could reduce the number of objects in a scene, so that it can b
 In this case, I wanted to keep the image intact.
 The goal was to have the same image before and after the optimizations.
 
-To make this possible, in decided on four scenes that would showcase the different features of the raytracer and how some optimizations could impact different cases.
+To make this possible, I decided on four scenes that would showcase the different features of the raytracer and how some optimizations could impact different cases.
 
 They are all rendered on a 400x400 image with 200 samples per pixel and a ray depth of 30.
 
@@ -89,18 +89,17 @@ As you can see, there is a big hit on performance from the amount of objects in 
 
 ### What's Data Oriented Programming
 
-If you're not sure what [Data Oriented Programming](https://blog.klipse.tech/databook/2020/09/25/data-book-chap0.html) means, I'll will try to summarize it for you.
+If you're not sure what [Data Oriented Programming](https://blog.klipse.tech/databook/2020/09/25/data-book-chap0.html) means, I will try to summarize it for you.
 
 It's basically centered around the idea that the way the data is layed out in your memory, can (and will) impact performance.
 
-When you code in an data oriented way, one of the things that you try to do is having as much data as possible that's contiguous.
+When you code in a data oriented way, one of the things that you try to do is having as much data as possible that's contiguous.
 For example if you have an array of objects that you want to process, you try to avoid having an array of pointers to these objects, but instead you use an array to these objects.
 
 > But this will ruin inheritence !
 
 Yes ! That's the point !
 Since inheritence makes you go through a [v-table](https://stackoverflow.com/a/3004555/12330678), it has an heavy impact on performances.
-This is where concepts such as "[Composition over inheritance](https://en.wikipedia.org/wiki/Composition_over_inheritance)" come from.
 
 > So you're telling that you remove inheritance, but I thought that Rust didn't have inheritance ?
 
