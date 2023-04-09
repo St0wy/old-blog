@@ -4,7 +4,7 @@ export const SITE: Site = {
   website: "https://blog.stowy.ch",
   author: "Stowy",
   desc: "The game dev blog of Stowy.",
-  title: "Stowy",
+  title: "Stowy's Blog",
   ogImage: "",
   lightAndDarkMode: true,
   postPerPage: 3,
