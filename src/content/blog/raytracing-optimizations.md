@@ -360,7 +360,7 @@ I don't really know why this is. My guess is that when rendering an image that h
 Up until now, the program used a homemade vector type.
 This can work, and did until now, but I wasn't using all of the tool possible to make it as fast as possible.
 One of these are [SIMD](https://en.wikipedia.org/wiki/Single_instruction,_multiple_data).
-Although a vector 3 doesn't quite fit in an SSX register, if you add padding it does, and it's possible to then use the SIMD instructions for additions, mutliplicatiosn etc.
+Although a vector 3 doesn't quite fit in an SSE register, if you add padding it does. It's possible to then use the SIMD instructions for additions, mutliplicatiosn etc.
 
 ### Implementation
 
