@@ -8,7 +8,7 @@ tags:
   - raytracing
   - english
   - sae
-description: Technical blogpost on how I optimized a Raytracer using various methods.
+description: Technical blog post on how I optimized a Raytracer using various methods.
 ---
 
 During the second module of the third year at SAE Institute, we had to do a project in a naive way, that we would then optimize.

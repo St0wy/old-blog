@@ -25,7 +25,7 @@ The goal of the game is to pass a ball between the two players to be able to go 
   Your browser does not support the video tag.
 </video>
 
-This blogpost is about the problems I had while making this game and the solutions I found.
+This blog post is about the problems I had while making this game and the solutions I found.
 
 ## The physics
 
@@ -171,4 +171,4 @@ This setup, in theory, should work well. However, right now it causes desyncs if
 
 ## Conclusion
 
-To conclude, in this blogpost I talked about how I integrated and fixed a bug in my physics engine, how I added layers to it using Bit-fields and how I implemented and spawned falling walls in a "Server authoritative" way.
+To conclude, in this blog post I talked about how I integrated and fixed a bug in my physics engine, how I added layers to it using Bit-fields and how I implemented and spawned falling walls in a "Server authoritative" way.
