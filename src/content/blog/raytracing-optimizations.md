@@ -11,7 +11,7 @@ tags:
 description: Technical blog post on how I optimized a Raytracer using various methods.
 ---
 
-During the second module of the third year at SAE Institute, we had to do a project in a naive way, that we would then optimize.
+During the second module of the second year at SAE Institute, we had to do a project in a naive way, that we would then optimize.
 
 Since I enjoy computer graphics, I decided to follow [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html) written by Peter Shirley.
 And since I also enjoy Rust, it's the language I chose for this project.
