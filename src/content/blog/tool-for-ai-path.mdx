@@ -2,7 +2,7 @@
 title: Tool for AI Path
 pubDatetime: 2022-12-19
 featured: false
-draft: false
+draft: true
 tags:
   - unreal
   - english
@@ -19,7 +19,9 @@ What I had to do was a tool to create the path of AIs.
 Sub Caelo is a local multiplayer pod-racing game.
 It is a "remake" of the 3rd year project that previous students had to make on the [Neko Engine](https://github.com/EliasFarhan/NekoEngine), "Air Racer".
 
-![Air Racer](/ai-path-tool/AirRacer.png)
+<div data-lightbox="true">
+  <img src="/ai-path-tool/AirRacer.png" alt="Air Racer" />
+</div>
 
 ## The tool
 
@@ -31,8 +33,8 @@ After placing the spline, I had to add an object that would go along it to visua
 This is what the final tool looks like:
 
 <video width="640" height="480" loop muted autoplay >
-  <source src="/ai-path-tool/aiPathTool.mp4" type="video/mp4">
-  Your browser does not support the video tag.
+	<source src="/ai-path-tool/aiPathTool.mp4" type="video/mp4" />
+	Your browser does not support the video tag.
 </video>
 
 ## Implementation
@@ -44,11 +46,15 @@ The first step was to have a way to add the line that the AI would follow.
 For this, the easiest way is to use the integrated spline tool inside of Unreal Engine.
 I created a blueprint actor, called _AISplinePathBP_ to hold it, where I just added the spline component in the Components tab.
 
-![Spline](/ai-path-tool/splineObject.png)
+<div data-lightbox="true">
+  <img src="/ai-path-tool/splineObject.png" alt="Spline" />
+</div>
 
 After this, I ticked the _Closed Loop_ box in the Details tab in the Spline section.
 
-![Closed Loop](/ai-path-tool/UnrealEditor_2cggt6zvNC.png)
+<div data-lightbox="true">
+  <img src="/ai-path-tool/UnrealEditor_2cggt6zvNC.png" alt="Closed Loop" />
+</div>
 
 This is so that the spline always forms a loop, which is nice since the circuits are loops.
 
@@ -72,27 +78,37 @@ The output is :
 The first thing to do is to add a shape for this object.
 I choose a cylinder, so we can see where it "looks" at.
 
-![Cylinder 2](/ai-path-tool/cylinder2.png)
+<div data-lightbox="true">
+  <img src="/ai-path-tool/cylinder2.png" alt="Cylinder 2" />
+</div>
 
-![Cylinder 1](/ai-path-tool/cylinder1.png)
+<div data-lightbox="true">
+  <img src="/ai-path-tool/cylinder1.png" alt="Cylinder 1" />
+</div>
 
 Then, we need two variables:
 
 - one to store a reference to the spline
 - one to store the time it takes for the object to go around the spline in second
 
-![variables](/ai-path-tool/variables.png)
+<div data-lightbox="true">
+  <img src="/ai-path-tool/variables.png" alt="variables" />
+</div>
 
 The spline reference is then set in the _BeginPlay_ event.
 We only set it if the variable is not valid, so that it can be set by the user.
 This is useful if we have multiple followers and/or multiple splines.
 Then we check again if it's valid to make sure we found something, otherwise, we warn the user.
 
-![Spline ref](/ai-path-tool/splineRef.png)
+<div data-lightbox="true">
+  <img src="/ai-path-tool/splineRef.png" alt="Spline ref" />
+</div>
 
 After that, we create a custom event called _Move Object_ that is called after the reference is set.
 
-![move object call](/ai-path-tool/moveObjectCall.png)
+<div data-lightbox="true">
+  <img src="/ai-path-tool/moveObjectCall.png" alt="move object call" />
+</div>
 
 But how are we going to move that object?
 The basic idea is that we are going to use a _Timeline_ node.
@@ -106,7 +122,9 @@ This will make it last the duration we have set.
 For this we divide 1 by _Time To Complete_ and feed that value to the _Set Play Rate_ node.
 We can add a Timeline node after this too.
 
-![Begin move object](/ai-path-tool/beginMoveObject.png)
+<div data-lightbox="true">
+  <img src="/ai-path-tool/beginMoveObject.png" alt="Begin move object" />
+</div>
 
 Now we need to setup the timeline to send a value from 0 to 1.
 For this we add two keys, one at 0,0 and one at 1,1.
@@ -115,7 +133,9 @@ This will make it so the actor will slowly accelerate at the beginning and slowl
 
 The curve should look like this:
 
-![curve](/ai-path-tool/curve.png)
+<div data-lightbox="true">
+  <img src="/ai-path-tool/curve.png" alt="curve" />
+</div>
 
 Then there are two things we want to do, restart _Move Object_ once the timeline finishes
 and set the actor transform on the update event.
@@ -124,7 +144,9 @@ We want the position along the spline, for that we lerp from 0 to the spline len
 Then we use the resulting value in _Get Location at Distance Along Spline_ and _Get Rotation at Distance Along Spline_,
 which are then used in a _Set Actor Transform_ node.
 
-![End move object](/ai-path-tool/endMoveObject.png)
+<div data-lightbox="true">
+  <img src="/ai-path-tool/endMoveObject.png" alt="End move object" />
+</div>
 
 ## Conclusion
 
