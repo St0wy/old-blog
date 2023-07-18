@@ -16,7 +16,12 @@ In this blog post, I will explain the technical details behind my implementation
 I won't go into too much details about the computer graphics concepts applied here. If that's something of interest to you,
 you can read [LearnOpenGL](https://learnopengl.com/) which is where I learned everything needed to make this scene real!
 
-![Picture of the demo scene of my renderer](/opengl-scene/chat.jpg)
+<div data-lightbox="true">
+  <img
+    src="/opengl-scene/chat.jpg"
+    alt="Picture of the demo scene of my renderer"
+  />
+</div>
 
 ## Table of contents
 
@@ -156,7 +161,12 @@ As I didn't want to store a vector of children, because it would be on the heap 
 It also keeps all of the data next to eachother, and this makes the structure more cache friendly.
 This means that my scene graph looks something like this :
 
-![graph on how the scene graph is layed out](/opengl-scene/scene-graph.svg)
+<div data-lightbox="true">
+  <img
+    src="/opengl-scene/scene-graph.svg"
+    alt="graph on how the scene graph is layed out"
+  />
+</div>
 
 And what's nice with this code, is that traversing the tree to draw it to the screen is not that much more complex than using some good old DFS.
 
@@ -430,31 +440,50 @@ The first thing that's done is the geometry pass all of the informations that th
 
 The first attachment has the fragments positions in view-space on the RGB channels and the ambient occlusion factor in the alpha.
 
-![fragPos](/opengl-scene/fragPos.png)
-![ambientOcclusion](/opengl-scene/ambientOcclusion.png)
+<div data-lightbox="true">
+  <img src="/opengl-scene/fragPos.png" alt="fragPos" />
+</div>
+<div data-lightbox="true">
+  <img src="/opengl-scene/ambientOcclusion.png" alt="ambientOcclusion" />
+</div>
 
 Then in the second attachment, the normals in view-space and the roughness is stored.
 
-![normal](/opengl-scene/normal.png)
-![roughness](/opengl-scene/roughness.png)
+<div data-lightbox="true">
+  <img src="/opengl-scene/normal.png" alt="normal" />
+</div>
+<div data-lightbox="true">
+  <img src="/opengl-scene/roughness.png" alt="roughness" />
+</div>
 
 And in the third attachment, we have the base color and the metallic.
 
-![baseColor](/opengl-scene/baseColor.png)
-![metallic](/opengl-scene/metallic.png)
+<div data-lightbox="true">
+  <img src="/opengl-scene/baseColor.png" alt="baseColor" />
+</div>
+![]()
+<div data-lightbox="true">
+  <img src="/opengl-scene/metallic.png" alt="metallic" />
+</div>
 
 After this pass, we take the fragments in view-space and use them to compute the SSAO.
 A blur effect is then applied to smooth out the noise.
 
-![ssao](/opengl-scene/ssao.png)
+<div data-lightbox="true">
+  <img src="/opengl-scene/ssao.png" alt="ssao" />
+</div>
 
 Then, the 4 levels of the cascaded shadow maps are rendered. (I'll only show two of them.)
 
-![lightDepth](/opengl-scene/lightDepth.png)
-![lightDepth2](/opengl-scene/lightDepth2.png)
+<div data-lightbox="true">
+  <img src="/opengl-scene/lightDepth.png" alt="lightDepth" />
+</div>
+<div data-lightbox="true">
+  <img src="/opengl-scene/lightDepth2.png" alt="lightDepth2" />
+</div>
 
 After this, we can start to render the lights.
-For this, we enable blending and call three pipelines : 
+For this, we enable blending and call three pipelines :
 
 - Ambient lighting (IBL)
 - Directional light (with shadow)
@@ -464,30 +493,42 @@ The ambient lighting and directional light are rendered using a quad that's the 
 Then, the point lights are rendered by rendering a sphere that has the same position and radius of the light.
 This allows to only update the pixels impacted by the light and saves on performance.
 
-The ambient lighting looks like this : 
+The ambient lighting looks like this :
 
-![ambientLighting](/opengl-scene/ambient.png)
+<div data-lightbox="true">
+  <img src="/opengl-scene/ambient.png" alt="ambientLighting" />
+</div>
 
 Then the point light (yes it's very similar) :
 
-![pointLight](/opengl-scene/pointLight.png)
+<div data-lightbox="true">
+  <img src="/opengl-scene/pointLight.png" alt="pointLight" />
+</div>
 
 And finally the directional light :
 
-![directionalLight](/opengl-scene/directional.png)
+<div data-lightbox="true">
+  <img src="/opengl-scene/directional.png" alt="directionalLight" />
+</div>
 
 Now that the light computation is done, sphere that are the color of the lights are rendered on top of the attachment and the skybox is drawn.
 
-![skybox](/opengl-scene/skybox.png)
+<div data-lightbox="true">
+  <img src="/opengl-scene/skybox.png" alt="skybox" />
+</div>
 
 Then bloom is rendered.
 
-![bloom](/opengl-scene/bloom.png)
+<div data-lightbox="true">
+  <img src="/opengl-scene/bloom.png" alt="bloom" />
+</div>
 
 And now we can mix the bloom with the previous framebuffer and apply some HDR tonemapping and gamma correction.
 (In my case I use Narkowicz ACES).
 
-![final](/opengl-scene/final.png)
+<div data-lightbox="true">
+  <img src="/opengl-scene/final.png" alt="final" />
+</div>
 
 Et voilà ! It took a lot of effort, but we have out final image.
 
@@ -497,7 +538,7 @@ I'm really proud of what I've done.
 Computer graphics is the domain where I want to work and this module was the one I waited for the most.
 I think I put in a lot of work, and the final result shows it.
 
-That being said, there are still some things I could improve. Such as : 
+That being said, there are still some things I could improve. Such as :
 
 - Structure of the code (especially renderer.cpp)
 - Fix the SSAO (but don't tell my teacher it's not correct)
@@ -508,7 +549,7 @@ That being said, there are still some things I could improve. Such as :
 
 And in the longer term, I really want to explore other graphics api using other programming languages.
 
-Right now my goals are : 
+Right now my goals are :
 
 - Direct3D 11 : Odin
 - Direct3D 12 : Zig
@@ -516,12 +557,20 @@ Right now my goals are :
 
 I hope I'll be able to work on this project and maybe write a blogpost about it !
 
-*Now some bonus funny visual bugs*
+_Now some bonus funny visual bugs_
 
-![bob omb](/opengl-scene/bobomb.jpg)
-![cursed](/opengl-scene/cursed.png)
-![spike](/opengl-scene/spike.bmp)
+<div data-lightbox="true">
+  <img src="/opengl-scene/bobomb.jpg" alt="bob omb" />
+</div>
+<div data-lightbox="true">
+  <img src="/opengl-scene/cursed.png" alt="cursed" />
+</div>
+<div data-lightbox="true">
+  <img src="/opengl-scene/spike.bmp" alt="spike" />
+</div>
 
-*and the full ibl developped integral because why not*
+_and the full ibl developped integral because why not_
 
-![cursed](/opengl-scene/ibl.png)
+<div data-lightbox="true">
+  <img src="/opengl-scene/ibl.png" alt="ibl" />
+</div>
