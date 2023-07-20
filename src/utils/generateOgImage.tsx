@@ -135,7 +135,7 @@ const options: SatoriOptions = {
   ],
 };
 
-const generateOgImage = async (mytext = SITE.title) => {
+const generateOgImage = async (mytext: string) => {
   const svg = await satori(ogImage(mytext), options);
 
   // render png in production mode
