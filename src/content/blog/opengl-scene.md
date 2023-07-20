@@ -531,7 +531,7 @@ And now we can mix the bloom with the previous framebuffer and apply some HDR to
   <img src="/opengl-scene/final.png" alt="final" />
 </div>
 
-Et voilà! It took a lot of effort, but we have out final image.
+Et voilà! It took a lot of effort, but we have our final image.
 
 ## Conclusion
 
