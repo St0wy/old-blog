@@ -12,7 +12,8 @@ tags:
 description: Technical breakdown of my deferred PBR renderer made with OpenGL in C++.
 ---
 
-In this blog post, I will explain the technical details behind my implementation of a deferred PBR renderer in OpenGL.
+In this blog post, I will explain some of the technical details behind my implementation of a deferred PBR renderer in OpenGL.
+
 I won't go into too many details about the computer graphics concepts applied here. If that's something of interest to you,
 you can read [LearnOpenGL](https://learnopengl.com/) which is where I learned everything needed to make this scene real!
 
