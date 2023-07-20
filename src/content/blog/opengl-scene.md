@@ -540,10 +540,10 @@ I'm really proud of what I've done.
 Computer graphics is the domain where I want to work and this module was the one I waited for the most.
 I think I put in a lot of work, and the final result shows it.
 
-That being said, there are still some things I could improve. Such as:
+That being said, there are still some things I could improve.
+Such as:
 
 - Structure of the code (especially renderer.cpp)
-- Fix the SSAO (but don't tell my teacher it's not correct)
 - Make textures use the mipmaps
 - Add Frustum Culling
 - Add a bit of multi-threading somewhere
