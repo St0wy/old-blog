@@ -6,7 +6,7 @@ draft: false
 postSlug: opengl-renderer
 tags:
   - graphics-programming
-  - c++
+  - cpp
   - english
   - sae
 description: Technical breakdown of my deferred PBR renderer made with OpenGL in C++.

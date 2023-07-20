@@ -6,7 +6,7 @@ draft: false
 postSlug: rollback-netcode-in-atomic-ball
 tags:
   - netcode
-  - c++
+  - cpp
   - english
   - sae
 description: Technical post on how I used the Rollback engine of my teacher in the game Atomic Ball.
