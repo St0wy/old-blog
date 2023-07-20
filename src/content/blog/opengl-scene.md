@@ -32,7 +32,7 @@ Before we talk about how things are rendered, let's talk about how the models an
 
 ### 3D Models
 
-Most of the complex stuff about asset loading is handled by the amazing [Assimp](http://www.assimp.org/) library.
+Most of the complex stuff about 3D models loading is handled by the amazing [Assimp](http://www.assimp.org/) library.
 Although it greatly simplifies the process, it's still necessary to see how each 3D model format is stored.
 As the renderer started by using the Blinn-Phong lighting model, it was easier to use the OBJ format.
 The fact that everything is editable by text made it really convenient to use and edit.
@@ -46,8 +46,8 @@ glTF stores the vertex data in binary format, and even has to option to store ev
 the option to merge the ambient occlusion, roughness and metallic (ARM) maps into one file.
 
 With my glTFs in hand, I had to adapt my asset loading code.
-As I still wanted to support models that have three separate textures for the ARM maps, I decided to check if the model has an ARM map.
-But to my surprise, Assimp has option to check this, which means the only way to know is to check the texture type `aiTextureType_UNKNOWN`.
+As I still wanted to support models that have three separate textures for the ARM maps, I decided to check if the model had an ARM map.
+But to my surprise, Assimp doesn't have an option to check this, which means the only way to know is to check the texture type `aiTextureType_UNKNOWN`.
 To make things worse, this ARM map counts as a roughness map and as a metalness.
 So if you're not careful, you might load the map three times.
 
@@ -98,7 +98,7 @@ std::vector<std::size_t> stw::MaterialManager::LoadMaterialsFromAssimpScene(
 ### Textures
 
 Textures where way easier to handle than 3D models.
-All you have to do is give a path to [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h), get the char pointer, give it to OpenGL and tada!
+All you have to do is give a path to [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h), get the `char*`, give it to OpenGL and tada!
 
 However, this was, unfortunately, the slowest part of the asset loading code.
 I would often spend 20ms on Assimp's code and my code reading Assimps data and then 2200ms on texture loading.
@@ -106,14 +106,12 @@ I would often spend 20ms on Assimp's code and my code reading Assimps data and t
 This is why I then decided to use another format: KTX.
 This format has the benefit to be readable by the GPU, which gives way better performance when loading it and giving it to the GPU.
 It also has the benefit of having some metadata on how the format should be read by OpenGL (such as if it's in linear space or in SRGB).
+I was also able to bake the mipmaps directly inside the file and to compress it to make it even smaller than the PNG (from 33 MB to 8 MB).
+
 To add to the list of great things of this format, the loading code was really easy to implement thanks to Khronos' [libktx](https://github.com/KhronosGroup/KTX-Software).
+All you have to do is load the KTX with `ktxTexture_CreateFromNamedFile` and then give this file to `ktxTexture_GLUpload`.
+It will then give back to you the OpenGL id that you can use for rendering.
 
-The downside is that the file is way bigger. For example, the base color map of the cat went from 24 MB to 64 MB.
-This is in part due to the lack of compression, since I wasn't able to make the code from libktx to work with it,
-and also because the file contains mipmaps to avoid having to ask OpenGL to load them.
-However, I wasn't able to manage to tell to OpenGL to use those mipmaps, which means that my scene doesn't use them at the moment.
-
-But I think this is still worth it, as the texture loading time per mesh went from ~2200ms to ~200ms!
 
 ## Scene Graph
 
@@ -538,7 +536,7 @@ Et voilà! It took a lot of effort, but we have out final image.
 ## Conclusion
 
 I'm really proud of what I've done.
-Computer graphics is the domain where I want to work and this module was the one I waited for the most.
+Computer graphics is the domain where I want to work and this project taught me a lot.
 I think I put in a lot of work, and the final result shows it.
 
 That being said, there are still some things I could improve.
@@ -559,9 +557,9 @@ Right now my goals are:
 - Direct3D 12: Zig
 - Vulkan: Rust
 
-I hope I'll be able to work on this project and maybe write a blogpost about it!
+I hope I'll be able to work on these projects and maybe write a blogpost about it!
 
-_Now some bonus funny visual bugs_
+_now some bonus funny visual bugs_
 
 <div data-lightbox="true">
   <img src="/opengl-scene/bobomb.jpg" alt="bob omb" />
