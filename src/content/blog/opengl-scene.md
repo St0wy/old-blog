@@ -544,7 +544,6 @@ That being said, there are still some things I could improve.
 Such as:
 
 - Structure of the code (especially renderer.cpp)
-- Make textures use the mipmaps
 - Add Frustum Culling
 - Add a bit of multi-threading somewhere
 - Do some benchmarks and analyze the code with tracy to optimize it a bit (this one is just for fun)
