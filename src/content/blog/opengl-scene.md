@@ -549,7 +549,9 @@ Such as:
 - Add a bit of multi-threading somewhere
 - Do some benchmarks and analyze the code with tracy to optimize it a bit (this one is just for fun)
 
-And in the longer term, I really want to explore other graphics API using other programming languages.
+You can find the code of this project on my [GitHub](https://github.com/St0wy/opengl-scene).
+
+In the longer term, I really want to explore other graphics API using other programming languages.
 
 Right now my goals are:
 
