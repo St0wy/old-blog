@@ -577,5 +577,3 @@ _and the full IBL developed integral because why not_
 <div data-lightbox="true">
   <img src="/opengl-scene/ibl.png" alt="ibl" />
 </div>
-
-## Comments

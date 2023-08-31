@@ -16,7 +16,11 @@ const mastodonPostUrl = `https://${SITE.comments.host}/${SITE.comments.username}
   class="article comments"
   data-comments-post-id={commentsPostId}
 >
-  <h2 style="font-size: 24px; font-weight: 700;line-height: 32px; font-variation-settings: normal">Comments</h2>
+  <h2
+    style="font-size: 24px; font-weight: 700;line-height: 32px; font-variation-settings: normal"
+  >
+    Comments
+  </h2>
   <p>
     Comment on this blog post by publicly replying to <LinkButton
       className="hover:text-skin-accent underline underline-offset-4 decoration-dashed"
@@ -200,7 +204,7 @@ const mastodonPostUrl = `https://${SITE.comments.host}/${SITE.comments.username}
                 permalink.setAttribute("itemprop", "url");
                 permalink.setAttribute("title", `View comment at ${instance}`);
                 permalink.setAttribute("rel", "external nofollow");
-                permalink.setAttribute
+                permalink.setAttribute;
                 permalink.textContent = new Date(
                   status.created_at
                 ).toLocaleString("en-US", {
@@ -438,227 +442,222 @@ const mastodonPostUrl = `https://${SITE.comments.host}/${SITE.comments.username}
 </script>
 
 <style>
-  mastodon-comments#comments {
-    .comment {
-      display: grid;
-      column-gap: 1rem;
-      grid-template-areas:
-        "avatar name"
-        "avatar time"
-        "avatar post"
-        "...... card"
-        "...... interactions";
-      grid-template-columns: min-content;
-      justify-items: start;
-      margin: 0em auto 0em -1em;
-      padding: 1em;
+  .avatar-link &.op::after {
+    background-color: var(--secondary-accent-color);
+    border-radius: 50%;
+    bottom: -0.25rem;
+    color: var(--secondary-accent-contrast);
+    content: "✓";
+    display: block;
+    font-size: 1.25rem;
+    font-weight: bold;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    position: absolute;
+    right: -0.25rem;
+    text-align: center;
+    width: 1.5rem;
+  }
 
-      .avatar-link {
-        grid-area: avatar;
-        height: 4rem;
-        position: relative;
-        width: 4rem;
+  .avatar {
+    height: 100%;
+    width: 100%;
+  }
 
-        .avatar {
-          height: 100%;
-          width: 100%;
-        }
+  .avatar-link {
+    grid-area: avatar;
+    height: 4rem;
+    position: relative;
+    width: 4rem;
+  }
 
-        &.op::after {
-          background-color: var(--secondary-accent-color);
-          border-radius: 50%;
-          bottom: -0.25rem;
-          color: var(--secondary-accent-contrast);
-          content: "✓";
-          display: block;
-          font-size: 1.25rem;
-          font-weight: bold;
-          height: 1.5rem;
-          line-height: 1.5rem;
-          position: absolute;
-          right: -0.25rem;
-          text-align: center;
-          width: 1.5rem;
-        }
-      }
+  .instance &:hover {
+    opacity: 0.8;
+    text-decoration: none;
+  }
 
-      .author {
-        align-items: center;
-        cursor: default;
-        display: flex;
-        font-weight: bold;
-        gap: 0.5em;
-        grid-area: name;
+  .instance &.op &::before {
+    content: "✓";
+    font-weight: bold;
+    margin-inline-end: 0.25em;
+    margin-inline-start: -0.25em;
+  }
 
-        .instance {
-          background-color: var(--faint);
-          border-radius: 9999px;
-          color: var(--neutral);
-          font-size: smaller;
-          font-weight: normal;
-          padding: 0.25em 0.75em;
+  .instance &.op {
+    background-color: var(--secondary-accent-color);
+    color: var(--secondary-accent-contrast);
+  }
 
-          &:hover {
-            opacity: 0.8;
-            text-decoration: none;
-          }
+  .instance {
+    background-color: var(--faint);
+    border-radius: 9999px;
+    color: var(--neutral);
+    font-size: smaller;
+    font-weight: normal;
+    padding: 0.25em 0.75em;
+  }
 
-          &.op {
-            background-color: var(--secondary-accent-color);
-            color: var(--secondary-accent-contrast);
+  .author {
+    align-items: center;
+    cursor: default;
+    display: flex;
+    font-weight: bold;
+    gap: 0.5em;
+    grid-area: name;
+  }
 
-            &::before {
-              content: "✓";
-              font-weight: bold;
-              margin-inline-end: 0.25em;
-              margin-inline-start: -0.25em;
-            }
-          }
-        }
-      }
+  time &.edited::after {
+    content: " *";
+  }
 
-      time {
-        @extend small;
+  time {
+    @extend small;
 
-        grid-area: time;
-        line-height: 1.5rem;
+    grid-area: time;
+    line-height: 1.5rem;
+  }
 
-        &.edited::after {
-          content: " *";
-        }
-      }
+  main p:first-child {
+    margin-top: 0.25em;
+  }
 
-      main {
-        grid-area: post;
-        justify-self: stretch;
+  main p:last-child {
+    margin-bottom: 0;
+  }
 
-        p:first-child {
-          margin-top: 0.25em;
-        }
+  main {
+    grid-area: post;
+    justify-self: stretch;
+  }
 
-        p:last-child {
-          margin-bottom: 0;
-        }
-      }
+  .card figcaption * {
+    display: -webkit-box;
+    line-height: 1.25;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
 
-      .card {
-        color: inherit;
-        grid-area: card;
-        max-width: 400px;
+  .card figcaption {
+    display: grid;
+    gap: 0.5em;
+    margin: 0;
+    padding: 1em;
+    text-align: left;
+  }
 
-        &:hover {
-          text-decoration: none;
-        }
+  .card figure {
+    border-radius: inherit;
+    overflow: hidden;
+  }
 
-        figure {
-          border-radius: inherit;
-          overflow: hidden;
-        }
+  .card &:hover {
+    text-decoration: none;
+  }
 
-        figcaption {
-          display: grid;
-          gap: 0.5em;
-          margin: 0;
-          padding: 1em;
-          text-align: left;
+  .card {
+    color: inherit;
+    grid-area: card;
+    max-width: 400px;
+  }
 
-          * {
-            display: -webkit-box;
-            line-height: 1.25;
-            margin: 0;
-            overflow: hidden;
-            padding: 0;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-          }
-        }
-      }
+  .comment &:first-of-type .card {
+    display: none;
+  }
 
-      // Hide the card from the shared post
-      &:first-of-type .card {
-        display: none;
-      }
+  .faves &::before {
+    color: var(--accent-color);
+    content: "♥";
+    margin-inline-end: 0.25em;
+  }
 
-      footer {
-        @extend small;
+  .comment footer .faves {
+    cursor: default;
+  }
 
-        display: flex;
-        gap: 1.25em;
-        grid-area: interactions;
-        margin-top: 0.925rem;
+  .boosts &::before {
+    color: var(--secondary-accent-color);
+    content: "🔁";
+    margin-inline-end: 0.25em;
+  }
 
-        .faves {
-          cursor: default;
+  .boosts {
+    cursor: default;
+  }
 
-          &::before {
-            color: var(--accent-color);
-            content: "♥";
-            margin-inline-end: 0.25em;
-          }
-        }
+  .comment footer {
+    @extend small;
 
-        .boosts {
-          cursor: default;
+    display: flex;
+    gap: 1.25em;
+    grid-area: interactions;
+    margin-top: 0.925rem;
+  }
 
-          &::before {
-            color: var(--secondary-accent-color);
-            content: "🔁";
-            margin-inline-end: 0.25em;
-          }
-        }
-      }
+  .emoji {
+    display: inline;
+    height: 1.25em;
+    vertical-align: middle;
+    width: 1.25em;
+  }
 
-      .emoji {
-        display: inline;
-        height: 1.25em;
-        vertical-align: middle;
-        width: 1.25em;
-      }
+  .invisible {
+    display: none;
+  }
 
-      .invisible {
-        display: none;
-      }
+  .ellipsis::after {
+    content: "…";
+  }
 
-      .ellipsis::after {
-        content: "…";
-      }
+  .comment details summary &::after {
+    content: "▸";
+    display: inline-block;
+    margin-left: 0.5em;
+    transition: transform 250ms ease;
+  }
 
-      details {
-        summary {
-          background-image: linear-gradient(
-              90deg,
-              transparent,
-              transparent 0.4rem,
-              var(--faint) 0.4rem,
-              var(--faint) calc(100% - 0.4rem),
-              transparent calc(100% - 0.4rem),
-              transparent
-            ),
-            repeating-linear-gradient(
-              45deg,
-              var(--faint),
-              var(--faint) 0.3rem,
-              var(--accent-color) 0.3rem,
-              var(--accent-color) 0.6rem
-            );
-          border-radius: 0.25rem;
-          color: inherit;
-          cursor: default;
-          margin-top: 0.925rem;
-          padding: 1em;
+  .comment details summary {
+    background-image: linear-gradient(
+        90deg,
+        transparent,
+        transparent 0.4rem,
+        var(--faint) 0.4rem,
+        var(--faint) calc(100% - 0.4rem),
+        transparent calc(100% - 0.4rem),
+        transparent
+      ),
+      repeating-linear-gradient(
+        45deg,
+        var(--faint),
+        var(--faint) 0.3rem,
+        var(--accent-color) 0.3rem,
+        var(--accent-color) 0.6rem
+      );
+    border-radius: 0.25rem;
+    color: inherit;
+    cursor: default;
+    margin-top: 0.925rem;
+    padding: 1em;
+  }
 
-          &::after {
-            content: "▸";
-            display: inline-block;
-            margin-left: 0.5em;
-            transition: transform 250ms ease;
-          }
-        }
+  details &[open] summary::after {
+    transform: rotate(90deg);
+  }
 
-        &[open] summary::after {
-          transform: rotate(90deg);
-        }
-      }
-    }
+  mastodon-comments#comments .comment {
+    display: grid;
+    column-gap: 1rem;
+    grid-template-areas:
+      "avatar name"
+      "avatar time"
+      "avatar post"
+      "...... card"
+      "...... interactions";
+    grid-template-columns: min-content;
+    justify-items: start;
+    margin: 0em auto 0em -1em;
+    padding: 1em;
   }
 </style>
