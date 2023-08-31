@@ -8,6 +8,10 @@ export const SITE: Site = {
   ogImage: "",
   lightAndDarkMode: true,
   postPerPage: 4,
+  comments: {
+    host: "mastodon.gamedev.place",
+    username: "@stowy",
+  }
 };
 
 export const LOGO_IMAGE = {
