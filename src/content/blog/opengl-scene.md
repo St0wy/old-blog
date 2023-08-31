@@ -349,7 +349,7 @@ void stw::BindMaterialForGBuffer(
 
 I won't explain how I implemented shadow maps, as this fairly well explained in LearnOpenGL.
 I will however mention one thing: shadow maps with view-space fragment position.
-In LeanrOpenGL, to implement SSAO, the author explains that view-space fragment positons are required,
+In LearnOpenGL, to implement SSAO, the author explains that view-space fragment positons are required,
 but every other chapter on the website consider them to be in world-space.
 This is quite frustrating, because the change from one to the other is not trivial.
 
