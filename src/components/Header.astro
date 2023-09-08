@@ -189,17 +189,18 @@ const { activeNav } = Astro.props;
 </style>
 
 <script>
-  // Toggle menu
-  const menuBtn = document.querySelector(".hamburger-menu");
-  const menuItems = document.querySelector("#menu-items")?.classList;
+  function handleHamburgerMenu() {
+    // Toggle menu
+    const menuBtn = document.querySelector(".hamburger-menu");
+    const menuItems = document.querySelector("#menu-items")?.classList;
 
-  const iconContainer = document.querySelector(".icon-container")?.classList;
-  const firstLine = document.querySelector("#first-line")?.classList;
-  const secondLine = document.querySelector("#second-line ")?.classList;
-  const thirdLine = document.querySelector("#third-line")?.classList;
+    const iconContainer = document.querySelector(".icon-container")?.classList;
+    const firstLine = document.querySelector("#first-line")?.classList;
+    const secondLine = document.querySelector("#second-line ")?.classList;
+    const thirdLine = document.querySelector("#third-line")?.classList;
 
-  menuBtn?.addEventListener("click", function () {
     const menuExpanded = menuBtn?.getAttribute("aria-expanded");
+
     if (menuExpanded === "false") {
       menuBtn?.setAttribute("aria-expanded", "true");
       menuBtn?.setAttribute("aria-label", "Close Menu");
@@ -223,5 +224,19 @@ const { activeNav } = Astro.props;
       thirdLine?.remove("display-none");
       secondLine?.remove("!w-full", "-rotate-45", "absolute", "bottom-1/2");
     }
-  });
+  }
+
+  document
+    .querySelector(".hamburger-menu")
+    ?.addEventListener("click", handleHamburgerMenu);
+
+  document.addEventListener(
+    "astro:after-swap",
+    () => {
+      document
+        .querySelector(".hamburger-menu")
+        ?.addEventListener("click", handleHamburgerMenu);
+    },
+    { once: false }
+  );
 </script>
