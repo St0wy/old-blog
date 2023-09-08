@@ -4,7 +4,7 @@
 
 @layer base {
   :root,
-  html[data-theme="light"] {
+  body[data-theme="light"] {
     --color-fill: 242, 245, 236;
     --color-text-base: 53, 53, 56;
     --color-accent: 17, 88, 209;
@@ -12,7 +12,7 @@
     --color-card-muted: 187, 199, 137;
     --color-border: 124, 173, 255;
   }
-  html[data-theme="dark"] {
+  body[data-theme="dark"] {
     --color-fill: 47, 55, 65;
     --color-text-base: 230, 230, 230;
     --color-accent: 26, 217, 217;
@@ -21,11 +21,11 @@
     --color-border: 59, 70, 85;
   }
   #sun-svg,
-  html[data-theme="dark"] #moon-svg {
+  body[data-theme="dark"] #moon-svg {
     display: none;
   }
   #moon-svg,
-  html[data-theme="dark"] #sun-svg {
+  body[data-theme="dark"] #sun-svg {
     display: block;
   }
   body {
