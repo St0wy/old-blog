@@ -26,6 +26,7 @@ jobs:
           node-version: 19
           path: .
           package-manager: pnpm
+          pnpm-version: 8.x.x
         # with:
         # path: . # The root location of your Astro project inside the repository. (optional)
 
