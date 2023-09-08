@@ -10,7 +10,6 @@ tags:
   - english
   - sae
 description: Technical breakdown of my deferred PBR renderer made with OpenGL in C++.
-commentsPostId: "110747316097896356"
 ---
 
 In this blog post, I will explain some of the technical details behind my implementation of a deferred PBR renderer in OpenGL.

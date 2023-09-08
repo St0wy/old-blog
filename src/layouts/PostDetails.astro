@@ -20,7 +20,6 @@ const {
   ogImage,
   pubDatetime,
   tags,
-  commentsPostId,
 } = post.data;
 
 const { Content } = await post.render();
@@ -55,8 +54,8 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
     <ul class="tags-container">
       {tags.map(tag => <Tag name={tag} />)}
     </ul>
-    <!-- <hr />
-    {commentsPostId ? <Comments commentsPostId={commentsPostId} /> : ""} -->
+    <hr />
+    <Comments />
   </main>
   <Footer />
 </Layout>
