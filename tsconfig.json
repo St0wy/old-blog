@@ -27,6 +27,7 @@
       "@utils/*": [
         "utils/*"
       ]
-    }
+    },
+    "jsx": "react-jsx"
   }
 }

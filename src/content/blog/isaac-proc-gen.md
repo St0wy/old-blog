@@ -3,7 +3,7 @@ title: La génération procédurale de The Binding of Isaac
 pubDatetime: 2022-06-08
 featured: false
 draft: false
-postSlug: isaac-prog-gen
+postSlug: isaac-proc-gen
 tags:
   - procedural-generation
   - unity
