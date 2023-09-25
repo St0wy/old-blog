@@ -6,6 +6,7 @@ import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
 import Comments from "@components/Comments.astro";
 import type { CollectionEntry } from "astro:content";
+import MdImage from "@components/MdImage.astro";
 
 export interface Props {
 	post: CollectionEntry<"blog">;
@@ -46,7 +47,7 @@ const ogUrl = new URL(`${postSlug}.png`, Astro.url.origin).href;
 			role="article"
 			class="prose mx-auto mt-8 max-w-3xl"
 		>
-			<Content />
+			<Content components={{img: MdImage}} />
 		</article>
 
 		<ul class="tags-container">

@@ -5,10 +5,10 @@ featured: true
 draft: false
 postSlug: opengl-renderer
 tags:
-  - graphics-programming
-  - cpp
-  - english
-  - sae
+    - graphics-programming
+    - cpp
+    - english
+    - sae
 description: Technical breakdown of my deferred PBR renderer made with OpenGL in C++.
 ---
 
@@ -17,12 +17,7 @@ In this blog post, I will explain some of the technical details behind my implem
 I won't go into too many details about the computer graphics concepts applied here. If that's something of interest to you,
 you can read [LearnOpenGL](https://learnopengl.com/) which is where I learned everything needed to make this scene real!
 
-<div data-lightbox="true">
-  <img
-    src="/opengl-scene/chat.jpg"
-    alt="Picture of the demo scene of my renderer"
-  />
-</div>
+![Picture of the demo scene of my renderer](/opengl-scene/chat.jpg)
 
 ## Table of contents
 
@@ -112,7 +107,6 @@ To add to the list of great things of this format, the loading code was really e
 All you have to do is load the KTX with `ktxTexture_CreateFromNamedFile` and then give this file to `ktxTexture_GLUpload`.
 It will then give back to you the OpenGL id that you can use for rendering.
 
-
 ## Scene Graph
 
 A scene graph is a way to organise elements in a scene by having elements that are children of other elements.
@@ -160,14 +154,9 @@ As I didn't want to store a vector of children, because it would be on the heap 
 It also keeps all of the data next to each other, and this makes the structure more cache friendly.
 This means that my scene graph looks something like this:
 
-<div data-lightbox="true">
-  <img
-    src="/opengl-scene/scene-graph.svg"
-    alt="graph on how the scene graph is layed out"
-  />
-</div>
+![graph on how the scene graph is layed out](/opengl-scene/scene-graph.svg)
 
-And what's nice with this code, is that traversing the tree to draw it to the screen is not that 
+And what's nice with this code, is that traversing the tree to draw it to the screen is not that
 much more complex than using some good old [DFS](https://en.wikipedia.org/wiki/Depth-first_search).
 
 ```cpp
@@ -233,7 +222,7 @@ void stw::SceneGraph::ForEach(
 }
 ```
 
-As you can see, we first loop over the graph, and each object is added to a hash map. 
+As you can see, we first loop over the graph, and each object is added to a hash map.
 This map basically has the material and mesh ids as a key.
 This means that we can then draw each element with their respective transforms.
 One thing I don't like with this implementation is the `std::vector` as value in the hash map, as it forces to do allocations for each element in the scene.
@@ -246,10 +235,10 @@ One thing that helped quite a lot in this project was having a renderer class wh
 
 This class contains:
 
-- OpenGL's "global functions" (for ex. `glClear`, `glFrontFace`)
-- Light management (you can add point and directional lights to it)
-- All of the other managers (MaterialManager, TextureManager, SceneGraph, ...)
-- The framebuffers and pipelines (also known as the shader class in LearnOpenGL)
+-   OpenGL's "global functions" (for ex. `glClear`, `glFrontFace`)
+-   Light management (you can add point and directional lights to it)
+-   All of the other managers (MaterialManager, TextureManager, SceneGraph, ...)
+-   The framebuffers and pipelines (also known as the shader class in LearnOpenGL)
 
 I'm not gonna show code that's inside this class as it's kinda messy and the .cpp is 1409 lines long as of writing (oops 😅).
 But the result of this is that using it is really convenient:
@@ -421,7 +410,7 @@ const f32 midX = minX + midLenX;
 const f32 midY = minY + midLenY;
 const f32 midZ = minZ + midLenZ;
 
-constexpr float zMultiplier = 5.0f;
+constexpr f32 zMultiplier = 5.0f;
 constexpr f32 xyMargin = 1.1f;
 midLenX *= xyMargin;
 midLenY *= xyMargin;
@@ -441,54 +430,39 @@ The first thing that's done is the geometry pass all of the informations that th
 
 The first attachment has the fragments positions in view-space on the RGB channels and the ambient occlusion factor in the alpha.
 
-<div data-lightbox="true">
-  <img src="/opengl-scene/fragPos.png" alt="fragPos" />
-</div>
-<div data-lightbox="true">
-  <img src="/opengl-scene/ambientOcclusion.png" alt="ambientOcclusion" />
-</div>
+![fragPos](/opengl-scene/fragPos.png)
+
+![ambientOcclusion](/opengl-scene/ambientOcclusion.png)
 
 Then in the second attachment, the normals in view-space and the roughness are stored.
 
-<div data-lightbox="true">
-  <img src="/opengl-scene/normal.png" alt="normal" />
-</div>
-<div data-lightbox="true">
-  <img src="/opengl-scene/roughness.png" alt="roughness" />
-</div>
+![normal](/opengl-scene/normal.png)
+
+![roughness](/opengl-scene/roughness.png)
 
 And in the third attachment, we have the base color and the metallic.
 
-<div data-lightbox="true">
-  <img src="/opengl-scene/baseColor.png" alt="baseColor" />
-</div>
-![]()
-<div data-lightbox="true">
-  <img src="/opengl-scene/metallic.png" alt="metallic" />
-</div>
+![baseColor](/opengl-scene/baseColor.png)
+
+![metallic](/opengl-scene/metallic.png)
 
 After this pass, we take the fragments in view-space and use them to compute the SSAO.
 A blur effect is then applied to smooth out the noise.
 
-<div data-lightbox="true">
-  <img src="/opengl-scene/ssao.png" alt="ssao" />
-</div>
+![ssao](/opengl-scene/ssao.png)
 
 Then, the four levels of the cascaded shadow maps are rendered. (I'll only show two of them.)
 
-<div data-lightbox="true">
-  <img src="/opengl-scene/lightDepth.png" alt="lightDepth" />
-</div>
-<div data-lightbox="true">
-  <img src="/opengl-scene/lightDepth2.png" alt="lightDepth2" />
-</div>
+![lightDepth](/opengl-scene/lightDepth.png)
+
+![lightDepth2](/opengl-scene/lightDepth2.png)
 
 After this, we can start to render the lights.
 For this, we enable blending and call three pipelines:
 
-- Ambient lighting (IBL)
-- Directional light (with shadow)
-- Point lights
+-   Ambient lighting (IBL)
+-   Directional light (with shadow)
+-   Point lights
 
 The ambient lighting and directional light are rendered using a quad that's the size of the screen, because they apply to every object.
 Then, the point lights are rendered by rendering a sphere that has the same position and radius of the light.
@@ -496,40 +470,28 @@ This allows to only update the pixels impacted by the light and saves on perform
 
 The ambient lighting looks like this:
 
-<div data-lightbox="true">
-  <img src="/opengl-scene/ambient.png" alt="ambientLighting" />
-</div>
+![ambientLighting](/opengl-scene/ambient.png)
 
 Then the point light (yes it's very similar):
 
-<div data-lightbox="true">
-  <img src="/opengl-scene/pointLight.png" alt="pointLight" />
-</div>
+![pointLight](/opengl-scene/pointLight.png)
 
 And finally the directional light:
 
-<div data-lightbox="true">
-  <img src="/opengl-scene/directional.png" alt="directionalLight" />
-</div>
+![directionalLight](/opengl-scene/directional.png)
 
 Now that the light computation is done, spheres that are the color of the lights are rendered on top of the attachment and the skybox is drawn.
 
-<div data-lightbox="true">
-  <img src="/opengl-scene/skybox.png" alt="skybox" />
-</div>
+![skybox](/opengl-scene/skybox.png)
 
 Then bloom is rendered.
 
-<div data-lightbox="true">
-  <img src="/opengl-scene/bloom.png" alt="bloom" />
-</div>
+![bloom](/opengl-scene/bloom.png)
 
 And now we can mix the bloom with the previous framebuffer and apply some HDR tone mapping and gamma correction.
 (In my case I use Narkowicz ACES).
 
-<div data-lightbox="true">
-  <img src="/opengl-scene/final.png" alt="final" />
-</div>
+![final](/opengl-scene/final.png)
 
 Et voilà! It took a lot of effort, but we have our final image.
 
@@ -542,10 +504,10 @@ I think I put in a lot of work, and the final result shows it.
 That being said, there are still some things I could improve.
 Such as:
 
-- Structure of the code (especially renderer.cpp)
-- Add Frustum Culling
-- Add a bit of multi-threading somewhere
-- Do some benchmarks and analyze the code with tracy to optimize it a bit (this one is just for fun)
+-   Structure of the code (especially renderer.cpp)
+-   Add Frustum Culling
+-   Add a bit of multi-threading somewhere
+-   Do some benchmarks and analyze the code with tracy to optimize it a bit (this one is just for fun)
 
 You can find the code of this project on my [GitHub](https://github.com/St0wy/opengl-scene).
 
@@ -553,26 +515,20 @@ In the longer term, I really want to explore other graphics API using other prog
 
 Right now my goals are:
 
-- Direct3D 11: Odin
-- Direct3D 12: Zig
-- Vulkan: Rust
+-   Direct3D 11: Odin
+-   Direct3D 12: Zig
+-   Vulkan: Rust
 
 I hope I'll be able to work on these projects and maybe write a blogpost about it!
 
 _now some bonus funny visual bugs_
 
-<div data-lightbox="true">
-  <img src="/opengl-scene/bobomb.jpg" alt="bob omb" />
-</div>
-<div data-lightbox="true">
-  <img src="/opengl-scene/cursed.png" alt="cursed" />
-</div>
-<div data-lightbox="true">
-  <img src="/opengl-scene/spike.bmp" alt="spike" />
-</div>
+![bob omb](/opengl-scene/bobomb.jpg)
+
+![cursed](/opengl-scene/cursed.png)
+
+![spike](/opengl-scene/spike.bmp)
 
 _and the full IBL developed integral because why not_
 
-<div data-lightbox="true">
-  <img src="/opengl-scene/ibl.png" alt="ibl" />
-</div>
+![ibl](/opengl-scene/ibl.png)

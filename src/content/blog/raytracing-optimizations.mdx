@@ -5,11 +5,11 @@ featured: true
 draft: false
 postSlug: raytracing-6-minutes-to-5-seconds
 tags:
-  - optimization
-  - raytracing
-  - rust
-  - english
-  - sae
+    - optimization
+    - raytracing
+    - rust
+    - english
+    - sae
 description: Technical blog post on how I optimized a Raytracer using various methods.
 ---
 
@@ -45,12 +45,7 @@ From front to back :
 2. Metalic
 3. Lambertian (diffuse)
 
-<div data-lightbox="true">
-	<img
-		src="/raytracing-optimizations/three-spheres.png"
-		alt="Scene with three spheres"
-	/>
-</div>
+![Scene with three spheres](/raytracing-optimizations/three-spheres.png)
 
 ### Big Scene
 
@@ -59,12 +54,7 @@ A big scene with a lot of spheres (~400, some are outside of the camera) of diff
 The blurry spheres on the front are here to simulate motion blur.
 It's like they're moving while the picture is being taken.
 
-<div data-lightbox="true">
-	<img
-		src="/raytracing-optimizations/big-scene.png"
-		alt="big raytraced scene with hundreds of balls"
-	/>
-</div>
+![big raytraced scene with hundreds of balls](/raytracing-optimizations/big-scene.png)
 
 ### Cornell Box
 
@@ -72,24 +62,14 @@ This is an image that is often reproduced to try the capacites of the lighting s
 It's a nice test to see the reflexion of the green wall onto the white box.
 Usually the boxes are rotated, but I didn't implement that in my renderer.
 
-<div data-lightbox="true">
-	<img
-		src="/raytracing-optimizations/cornell-box.png"
-		alt="Raytraced image of the cornell box"
-	/>
-</div>
+![Raytraced image of the cornell box](/raytracing-optimizations/cornell-box.png)
 
 ### Perlin and Earth
 
 In this image, there is a big sphere as the ground, that has a perlin noise texture.
 The sphere on top has an image texture of the earth.
 
-<div data-lightbox="true">
-	<img
-		src="/raytracing-optimizations/perlin-and-earth.png"
-		alt="image of a sphere with perlin noise texture and above it a sphere with a texture that looks like the earth"
-	/>
-</div>
+![image of a sphere with perlin noise texture and above it a sphere with a texture that looks like the earth](/raytracing-optimizations/perlin-and-earth.png)
 
 ## Naive Implementation
 
@@ -461,10 +441,10 @@ Most of them are described in [The Rust Performance Book](https://nnethercote.gi
 
 You can read the book if you want to know more, but here is a quick summary of each options :
 
-- LTO (Link-time Optimization) : Adds optimizations when the program is getting linked
-- Codegen Units : By default the Rust compiler tries to parallelize the compilation of your code. You can force it to only use one codegen unit so that it can find more optimizations.
-- CPU Specific Instructions : You can tell the program to compile for the current architecture to potentially use more modern instructions that could be faster.
-- Abort on `panic!` : Rust doesn't have exceptions, but it does have a panics, that can be catched. If you don't catch them, you can disable it to gain some performance.
+-   LTO (Link-time Optimization) : Adds optimizations when the program is getting linked
+-   Codegen Units : By default the Rust compiler tries to parallelize the compilation of your code. You can force it to only use one codegen unit so that it can find more optimizations.
+-   CPU Specific Instructions : You can tell the program to compile for the current architecture to potentially use more modern instructions that could be faster.
+-   Abort on `panic!` : Rust doesn't have exceptions, but it does have a panics, that can be catched. If you don't catch them, you can disable it to gain some performance.
 
 ### Speed
 
@@ -485,21 +465,11 @@ This doesn't change much for the cornell box (3,73% faster) but for the big scen
 That's quite a big leap in performances !
 Let's look at it in a more visual way.
 
-<div data-lightbox="true">
-	<img
-		src="/raytracing-optimizations/graph1.png"
-		alt="Graph of the performance improvements"
-	/>
-</div>
+![Graph of the performance improvements](/raytracing-optimizations/graph1.png)
 
 We can't see much after the multithreading, so let's zoom in a bit.
 
-<div data-lightbox="true">
-	<img
-		src="/raytracing-optimizations/graph2.png"
-		alt="Graph of the performance improvement"
-	/>
-</div>
+![Graph of the performance improvement](/raytracing-optimizations/graph2.png)
 
 And that's it for the optimizations !
 It's not quite real-time, the GPU might be needed for that. And there are probably other ways to improve the project, such as having a better way to handle the BVH.

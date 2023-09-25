@@ -5,13 +5,12 @@ featured: false
 draft: false
 postSlug: isaac-proc-gen
 tags:
-  - procedural-generation
-  - unity
-  - french
-  - sae
-description:
-  Explication de l'algorithme de génération de donjon dans 
-  The Binding of Isaac et implémentation sur Unity.
+    - procedural-generation
+    - unity
+    - french
+    - sae
+description: Explication de l'algorithme de génération de donjon dans
+    The Binding of Isaac et implémentation sur Unity.
 ---
 
 Dans le jeu que nous avons fait Némoz et moi, nous avons décidé d'utiliser deux types de génération procédurale :
@@ -27,21 +26,11 @@ Les exemples de code que je présente sont écrits en C#, mais il est possible d
 
 La génération d'Isaac est basée sur un concept très simple, mais qui pourtant donne de très bons résultats, d'où mon envie de l'utiliser.
 
-<div data-lightbox="true">
-	<img
-		src="/isaac-proc-gen/2022-05-24-22-57-27-.jpg"
-		alt="isaacScreenshot"
-	/>
-</div>
+![isaac screenshot](/isaac-proc-gen/2022-05-24-22-57-27-.jpg)
 
 De plus, la plus grande inspiration d'Isaac est le premier _The Legend of Zelda_, notamment ses donjons.
 
-<div data-lightbox="true">
-	<img
-		src="/isaac-proc-gen/zeldaMap.png"
-		alt="mapZelda"
-	/>
-</div>
+![mapZelda](/isaac-proc-gen/zeldaMap.png)
 
 ## Fonctionnement de la génération procédurale d'Isaac
 
@@ -67,12 +56,7 @@ Ce qui fait qu'on commence avec 7 ou 8 salles puis, le nombre augmentes de 2 ou 
 
 L'étape suivante est de décider d'un point de départ. Le mieux est d'utiliser le centre du tableau, car nous allons nous diriger dans toutes les directions autour de cette case.
 
-<div data-lightbox="true">
-	<img
-		src="/isaac-proc-gen/GridCenterDiagram.png"
-		alt="PositionOfCenterGrid"
-	/>
-</div>
+![PositionOfCenterGrid](/isaac-proc-gen/GridCenterDiagram.png)
 
 Ensuite, on ajoute cette pièce dans une queue, sur laquelle on itère.
 
@@ -102,12 +86,7 @@ Voici ce qu'on fait sur notre pièce :
 
 Si la pièce n'a pas ajouté de voisin, on peut la mettre dans une liste de pièces de fin, qu'on utilisera plus tard.
 
-<div data-lightbox="true">
-	<img
-		src="/isaac-proc-gen/GridRulesDiagram.png"
-		alt="RulesOfTheGrid"
-	/>
-</div>
+![RulesOfTheGrid](/isaac-proc-gen/GridRulesDiagram.png)
 
 Comme le mentionne Boris dans son article, cette façon de commencer avec une pièce et de s'étendre autour d'elle, est une sorte de BFS (ou selon les termes de l'article : Breadth First Exploration).
 
@@ -121,12 +100,7 @@ Normalement, dans Isaac, les salles de fin sont utilisées afin d'en faire des s
 
 Une fois que le plan du niveau est généré, il faut choisir des salles qui vont s'appliquer pour chaque cellule de notre tableau. Pour ce faire, lors de la génération, j'ai stocké les voisins de chaque salle dans la classe `Room`. Ce qui permet de choisir une salle en fonction (par exemple, il faut faire attention de bien choisir une salle qui a une porte ne haut et une porte à gauche si elle possède des voisins dans ces directions).
 
-<div data-lightbox="true">
-	<img
-		src="/isaac-proc-gen/sallePorte.png"
-		alt="sallePorte"
-	/>
-</div>
+![sallePorte](/isaac-proc-gen/sallePorte.png)
 
 Il y a plusieurs salles par type de voisinage, ce qui permet de choisir parmi une liste aléatoire.
 
@@ -211,22 +185,17 @@ public enum NeighborhoodType
 
 Maintenant que nous avons une représentation de notre room dans le code, nous allons lui faire une représentation "concrète".
 
-<div data-lightbox="true">
-	<img
-		src="/isaac-proc-gen/layoutScene.png"
-		alt="layoutScene"
-	/>
-</div>
+![layoutScene](/isaac-proc-gen/layoutScene.png)
 
 Une scène d'une salle est constituée de :
 
-- **Une grille** : contient la tilemap, donc la représentation visuelle, de la salle
+-   **Une grille** : contient la tilemap, donc la représentation visuelle, de la salle
 
-- **Les portes** : sont ou ne sont pas activée selon les portes présentes, elles s'occupent du passage entre les salles.
+-   **Les portes** : sont ou ne sont pas activée selon les portes présentes, elles s'occupent du passage entre les salles.
 
-- **La Room Behaviour** : contient le script qui va gérer notre salle (j'en parlerais juste après.)
+-   **La Room Behaviour** : contient le script qui va gérer notre salle (j'en parlerais juste après.)
 
-- **Les Spawners** : s'occupent de faire apparaître les monstres. Je n'entrerais pas en détail sur le sujet dans ce blog post.
+-   **Les Spawners** : s'occupent de faire apparaître les monstres. Je n'entrerais pas en détail sur le sujet dans ce blog post.
 
 Voici à quoi ressemble le script `RoomBehaviour` :
 
@@ -281,18 +250,13 @@ public class RoomBehaviour : MonoBehaviour
 
 Premièrement, nous allons regarder la scène qui va contenir notre donjon. Comme vu précédemment, les salles sont des scènes qui sont chargées additivement. Pour que cela soit possible, il faut une scène de "base" dans laquelle ces salles seront chargées. Dans ce cas, la scène "**Dungeon**".
 
-<div data-lightbox="true">
-	<img
-		src="/isaac-proc-gen/dungeonScene.png"
-		alt="dungeonScene"
-	/>
-</div>
+![dungeonScene](/isaac-proc-gen/dungeonScene.png)
 
 Ce qui nous intéresse dans cette scène c'est :
 
-- **TP Points** : les points ou le joueur sera téléporté quand il traverse une porte.
+-   **TP Points** : les points ou le joueur sera téléporté quand il traverse une porte.
 
-- **Dungeon Manager** : script qui s'occupe de gérer le donjon en général.
+-   **Dungeon Manager** : script qui s'occupe de gérer le donjon en général.
 
 Voici ce qui compose le `DungeonManager` :
 
@@ -515,6 +479,6 @@ Voici globalement comment la génération d'un donjon a la _The Binding of Isaac
 
 ## Sources
 
-- [Dungeon Generation in Binding of Isaac - BorisTheBrave.Com](https://www.boristhebrave.com/2020/09/12/dungeon-generation-in-binding-of-isaac/)
+-   [Dungeon Generation in Binding of Isaac - BorisTheBrave.Com](https://www.boristhebrave.com/2020/09/12/dungeon-generation-in-binding-of-isaac/)
 
-- [Binding of Isaac: Room Generation Explained! - YouTube](https://www.youtube.com/watch?v=1-HIA6-LBJc)
+-   [Binding of Isaac: Room Generation Explained! - YouTube](https://www.youtube.com/watch?v=1-HIA6-LBJc)

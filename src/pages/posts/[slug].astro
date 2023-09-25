@@ -4,9 +4,7 @@ import Posts from "@layouts/Posts.astro";
 import PostDetails from "@layouts/PostDetails.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import getPageNumbers from "@utils/getPageNumbers";
-import slugify from "@utils/slugify";
 import { SITE } from "@config";
-import { data } from "../../../dist/chunks/isaac-proc-gen_9a5d7fbe.mjs";
 
 export interface Props {
 	post: CollectionEntry<"blog">;
