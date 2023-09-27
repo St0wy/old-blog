@@ -6,9 +6,11 @@ draft: false
 postSlug: build-systems
 tags:
     - build-systems
+    - nushell
+    - cmake
     - cpp
     - english
-description: Exploring how to build a C++ project using Batch, Powershell, Nushell, zig and CMake.
+description: Exploring how to build a C++ project using Batch, Powershell, Nushell, Zig and CMake.
 ---
 
 ## Table of contents
@@ -16,7 +18,8 @@ description: Exploring how to build a C++ project using Batch, Powershell, Nushe
 ## Introduction
 
 When I first started to learn C++, one of the things I found to be the most confusing was using CMake.
-I learned to program in C#, and visual studio really did all of the hard work in term of handling the build so I never had to think about it.
+I learned to program in C# and visual studio really did all of the hard work in term of handling the build so
+I never had to think about it.
 At first this made me hate CMake,
 but since I also wanted to learn how to have a platform independent build system,
 I decided to learn how to properly use CMake.
@@ -54,10 +57,10 @@ you can check it out on [GitHub](https://github.com/St0wy/build_system_tests).
 ## Batch
 
 So setup with Batch files is very much inspired by the one that is in the Kohi tutorial series.
-I just added the option to be able to call the script with with `release` afterwards to build with optimisations on.
+I just added the option to be able to call the script with `release` afterwards to build with optimisations on.
 
 The first part of the script is about checking if we want to build in release,
-get every cpp files and setting the compiler flags in variables.
+get every `.cpp` files and setting the compiler flags in variables.
 Then we call clang to build the project.
 
 ```batch
@@ -98,7 +101,7 @@ clang++ %cppFilenames% %compilerFlags% -o ../bin/%assembly%.dll %defines% %inclu
 ```
 
 And with that we can build the library.
-The executable has a pretty similar script, just with different flags to be able to link against the the library.
+The executable has a pretty similar script, just with different flags to be able to link against the library.
 
 Then the script to build both is also pretty simple.
 It basically creates the bin directory then call each script in their own directory.
@@ -144,12 +147,12 @@ I thought that it might have a better syntax than it and so I decided to try it 
 ## Powershell
 
 I have to confess something for this chapter.
-I never actually wrote a Powershell script in my life, so I thought it could be a good idea to see how
+I have never actually written a Powershell script in my life, so I thought it could be a good idea to see how
 ChatGPT would translate my Batch script into Powershell.
 And believe it or not, but the script that it gave me worked on the first try !
 
 So how does it differ ?
-Basically, to find the cpp files, I was able to use the `Get-ChildItem` command instead of the wierd for loop.
+Basically, to find the `.cpp` files, I was able to use the `Get-ChildItem` command instead of the weird for loop.
 Then, since Powershell can't insert variables when calling a command, I had to create a string with the command in it
 and then call it with `Inkove-Expression`.
 
@@ -190,7 +193,7 @@ $buildCommand = "clang++ $cppFiles $compilerFlags -o ..\bin\$assembly.dll $defin
 Invoke-Expression $buildCommand
 ```
 
-As before, for the testbed it's just different flags and I won't talk about the build_all.ps1 script since it's not that interesting.
+As before, for the testbed, it's just different flags, and I won't talk about the build_all.ps1 script since it's not that interesting.
 
 ### Pros
 
@@ -210,11 +213,11 @@ Since I wanted to write a script that could work on both Windows and Linux, I th
 I actually wrote two versions of the script, one that follows the same structure as the previous ones (simple)
 and one where I defined a custom command to reduce code duplication (improved).
 
-As you can see below, in nushell you must have a main function in scripts,
+As you can see below, in Nushell you must have a main function in scripts,
 which is super nice because it allows to have type-safe parameters.
-Another nice thing is that variables are immutable by default and that the syntax is more terse than Powershell.
+Another nice thing is that variables are immutable by default and that the syntax is terser than Powershell.
 
-```nushell
+```nu
 # Build script for stowy physics engine
 
 def main [input?: string] {
@@ -301,7 +304,7 @@ def build [
 }
 ```
 
-An other nice thing from Nushell is that it generates an help page from these parameters.
+Another nice thing from Nushell is that it generates a help page from these parameters.
 
 ![Help page of the build command.](/build-systems/help.png)
 
@@ -340,7 +343,7 @@ I will go into more detail on why we split the compiler name once we arrive at t
 Then we need to define the name of the assembly.
 It will depend on whether we're on windows or linux and on whether we're building a library or an executable.
 Then the path is split then joined, this is to have a path that doesn't mix `/` and `\`.
-This isn't stricly necessary, but I did it just to be on the safe side.
+This isn't strictly necessary, but I did it just to be on the safe side.
 
 ```nu
 let assemblyOutputFile = if $targetType == 'executable' {
@@ -361,14 +364,14 @@ let assemblyOutputFile = if $targetType == 'executable' {
 let assemblyOutputFile = $assemblyOutputFile  | path split | path join
 ```
 
-Then we get the cpp files and get their path relative to the source directory.
+Then we get the `.cpp` files and get their path relative to the source directory.
 
 ```nu
 let cppFiles = glob **/*.cpp
 let relativeCppFiles = ($cppFiles  | path relative-to $sourceDirectory | path parse)
 ```
 
-And now we will build each cpp file separately into an o file.
+And now we will build each `.cpp` file separately into a `.o` file.
 We do that so that we can cache the compilation of each file and also parallelize this step using `par-each`.
 
 ```nu
@@ -396,23 +399,23 @@ let objectFiles = $relativeCppFiles | par-each {|relativeCppFile| (
 )}
 ```
 
-As you can see we use now the split compiler.
+As you can see, we now use the splited compiler.
 This is here because if you try to run a command that has a space in its name with `run-external`
 it will try to find an executable with this exact name and fail.
-But if you're familliar with Nushell, you might wonder why I don't use the syntax with `^` to run the command ?
+But if you're familiar with Nushell, you might wonder why I don't use the syntax with `^` to run the command ?
 Because yes I could write
 
 ```nu
 ^$compiler -c -o $outputFileWithDir # ...
 ```
 
-But this had the problem where the command would return before it was done with building the .o,
-which was then a problem when the linker tried reading o files that didn't exist.
+But this had the problem where the command would return before it was done with building the `.o`,
+which was then a problem when the linker tried reading `.o` files that didn't exist.
 The only way I find to mitigate this was to use `run-external`.
 
 I guess this is just what happens when you use something new like Nushell, bugs will happen.
 
-Anyway, now that the cpp files are built, we can link them.
+Anyway, now that the `.cpp` files are built, we can link them.
 
 ```nu
 run-external $splitCompiler.0 ($splitCompiler | range 1..) '-o' $assemblyOutputFile $objectFiles $linkerFlags $includeFlags $defines $compilerFlags
@@ -433,7 +436,7 @@ We have a project that can build on both Windows and Linux and that supports cac
 -   **Bugs** : I had to go through some hoops to avoid bugs from Nushell
 
 But what if we could have a build system with a nice syntax, type safety, portability, cached builds and no bugs ?
-Well this is where Zig comes in !
+Well, this is where Zig comes in !
 
 ## Zig
 
@@ -586,16 +589,16 @@ target_compile_definitions(StowyPhysicsEngine PUBLIC STWCMAKE)
 ### Cons
 
 -   **Hard to learn**
--   **Wierd syntax**
+-   **Weird syntax**
 
 ## Conclusion
 
 So after looking at everything, what will I use in my next C++ project ?
 I think I'm gonna stay with CMake, the fact that it's so easy to use 3rd party code with it makes it a no brainer.
 Also, now that I've learned to use it, I think it's the simplest way to get things done.
-I lost so much time debugging wierd things when I used Nushell and Zig that it made me like CMake.
+I lost so much time debugging weird things when I used Nushell and Zig that it made me like CMake.
 I just wish that there was an even better option out there, every time I touch a C++ project,
 I miss [Cargo](https://doc.rust-lang.org/stable/cargo/).
 
 I know there are options like [Premake](https://premake.github.io/), [xmake](https://xmake.io/#/) or [Meson](https://mesonbuild.com/)
-but even without having using them, I something tells me I will have a bad time trying to use a CMake only library with them.
+but even without having used them, I something tells me I will have a bad time trying to use a CMake only library with them.
