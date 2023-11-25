@@ -17,7 +17,7 @@ In this blog post, I will explain some of the technical details behind my implem
 I won't go into too many details about the computer graphics concepts applied here. If that's something of interest to you,
 you can read [LearnOpenGL](https://learnopengl.com/) which is where I learned everything needed to make this scene real!
 
-![Picture of the demo scene of my renderer](/opengl-scene/chat.jpg)
+![Picture of the demo scene of my renderer](/src/assets/opengl-scene/chat.jpg)
 
 ## Table of contents
 
@@ -154,7 +154,7 @@ As I didn't want to store a vector of children, because it would be on the heap 
 It also keeps all of the data next to each other, and this makes the structure more cache friendly.
 This means that my scene graph looks something like this:
 
-![graph on how the scene graph is layed out](/opengl-scene/scene-graph.svg)
+![graph on how the scene graph is layed out](/src/assets/opengl-scene/scene-graph.svg)
 
 And what's nice with this code, is that traversing the tree to draw it to the screen is not that
 much more complex than using some good old [DFS](https://en.wikipedia.org/wiki/Depth-first_search).
@@ -430,32 +430,32 @@ The first thing that's done is the geometry pass all of the informations that th
 
 The first attachment has the fragments positions in view-space on the RGB channels and the ambient occlusion factor in the alpha.
 
-![fragPos](/opengl-scene/fragPos.png)
+![fragPos](/src/assets/opengl-scene/fragPos.png)
 
-![ambientOcclusion](/opengl-scene/ambientOcclusion.png)
+![ambientOcclusion](/src/assets/opengl-scene/ambientOcclusion.png)
 
 Then in the second attachment, the normals in view-space and the roughness are stored.
 
-![normal](/opengl-scene/normal.png)
+![normal](/src/assets/opengl-scene/normal.png)
 
-![roughness](/opengl-scene/roughness.png)
+![roughness](/src/assets/opengl-scene/roughness.png)
 
 And in the third attachment, we have the base color and the metallic.
 
-![baseColor](/opengl-scene/baseColor.png)
+![baseColor](/src/assets/opengl-scene/baseColor.png)
 
-![metallic](/opengl-scene/metallic.png)
+![metallic](/src/assets/opengl-scene/metallic.png)
 
 After this pass, we take the fragments in view-space and use them to compute the SSAO.
 A blur effect is then applied to smooth out the noise.
 
-![ssao](/opengl-scene/ssao.png)
+![ssao](/src/assets/opengl-scene/ssao.png)
 
 Then, the four levels of the cascaded shadow maps are rendered. (I'll only show two of them.)
 
-![lightDepth](/opengl-scene/lightDepth.png)
+![lightDepth](/src/assets/opengl-scene/lightDepth.png)
 
-![lightDepth2](/opengl-scene/lightDepth2.png)
+![lightDepth2](/src/assets/opengl-scene/lightDepth2.png)
 
 After this, we can start to render the lights.
 For this, we enable blending and call three pipelines:
@@ -470,28 +470,28 @@ This allows to only update the pixels impacted by the light and saves on perform
 
 The ambient lighting looks like this:
 
-![ambientLighting](/opengl-scene/ambient.png)
+![ambientLighting](/src/assets/opengl-scene/ambient.png)
 
 Then the point light (yes it's very similar):
 
-![pointLight](/opengl-scene/pointLight.png)
+![pointLight](/src/assets/opengl-scene/pointLight.png)
 
 And finally the directional light:
 
-![directionalLight](/opengl-scene/directional.png)
+![directionalLight](/src/assets/opengl-scene/directional.png)
 
 Now that the light computation is done, spheres that are the color of the lights are rendered on top of the attachment and the skybox is drawn.
 
-![skybox](/opengl-scene/skybox.png)
+![skybox](/src/assets/opengl-scene/skybox.png)
 
 Then bloom is rendered.
 
-![bloom](/opengl-scene/bloom.png)
+![bloom](/src/assets/opengl-scene/bloom.png)
 
 And now we can mix the bloom with the previous framebuffer and apply some HDR tone mapping and gamma correction.
 (In my case I use Narkowicz ACES).
 
-![final](/opengl-scene/final.png)
+![final](/src/assets/opengl-scene/final.png)
 
 Et voilà! It took a lot of effort, but we have our final image.
 
@@ -523,12 +523,12 @@ I hope I'll be able to work on these projects and maybe write a blogpost about i
 
 _now some bonus funny visual bugs_
 
-![bob omb](/opengl-scene/bobomb.jpg)
+![bob omb](/src/assets/opengl-scene/bobomb.jpg)
 
-![cursed](/opengl-scene/cursed.png)
+![cursed](/src/assets/opengl-scene/cursed.png)
 
-![spike](/opengl-scene/spike.bmp)
+![spike](/src/assets/opengl-scene/spike.png)
 
 _and the full IBL developed integral because why not_
 
-![ibl](/opengl-scene/ibl.png)
+![ibl](/src/assets/opengl-scene/ibl.png)

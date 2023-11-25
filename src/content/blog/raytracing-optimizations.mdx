@@ -45,7 +45,7 @@ From front to back :
 2. Metalic
 3. Lambertian (diffuse)
 
-![Scene with three spheres](/raytracing-optimizations/three-spheres.png)
+![Scene with three spheres](/src/assets/raytracing-optimizations/three-spheres.png)
 
 ### Big Scene
 
@@ -54,7 +54,7 @@ A big scene with a lot of spheres (~400, some are outside of the camera) of diff
 The blurry spheres on the front are here to simulate motion blur.
 It's like they're moving while the picture is being taken.
 
-![big raytraced scene with hundreds of balls](/raytracing-optimizations/big-scene.png)
+![big raytraced scene with hundreds of balls](/src/assets/raytracing-optimizations/big-scene.png)
 
 ### Cornell Box
 
@@ -62,14 +62,14 @@ This is an image that is often reproduced to try the capacites of the lighting s
 It's a nice test to see the reflexion of the green wall onto the white box.
 Usually the boxes are rotated, but I didn't implement that in my renderer.
 
-![Raytraced image of the cornell box](/raytracing-optimizations/cornell-box.png)
+![Raytraced image of the cornell box](/src/assets/raytracing-optimizations/cornell-box.png)
 
 ### Perlin and Earth
 
 In this image, there is a big sphere as the ground, that has a perlin noise texture.
 The sphere on top has an image texture of the earth.
 
-![image of a sphere with perlin noise texture and above it a sphere with a texture that looks like the earth](/raytracing-optimizations/perlin-and-earth.png)
+![image of a sphere with perlin noise texture and above it a sphere with a texture that looks like the earth](/src/assets/raytracing-optimizations/perlin-and-earth.png)
 
 ## Naive Implementation
 
@@ -465,11 +465,11 @@ This doesn't change much for the cornell box (3,73% faster) but for the big scen
 That's quite a big leap in performances !
 Let's look at it in a more visual way.
 
-![Graph of the performance improvements](/raytracing-optimizations/graph1.png)
+![Graph of the performance improvements](/src/assets/raytracing-optimizations/graph1.png)
 
 We can't see much after the multithreading, so let's zoom in a bit.
 
-![Graph of the performance improvement](/raytracing-optimizations/graph2.png)
+![Graph of the performance improvement](/src/assets/raytracing-optimizations/graph2.png)
 
 And that's it for the optimizations !
 It's not quite real-time, the GPU might be needed for that. And there are probably other ways to improve the project, such as having a better way to handle the BVH.
