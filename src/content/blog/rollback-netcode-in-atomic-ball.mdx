@@ -151,7 +151,7 @@ It looks like that :
 class FallingWallSpawnManager
 {
 public:
-    explicit FallingWallSpawnManager(RollbackManager& rollbackManager, GameManager& gameManager);
+    FallingWallSpawnManager(RollbackManager& rollbackManager, GameManager& gameManager);
 
     void FixedUpdate();
     void CopyAllComponents(const FallingWallSpawnManager& fallingWallSpawnManager);
