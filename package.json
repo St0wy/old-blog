@@ -16,10 +16,10 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.3.1",
-    "@astrojs/mdx": "^1.1.5",
-    "@astrojs/rss": "^3.0.0",
+    "@astrojs/mdx": "^2.0.0",
+    "@astrojs/rss": "^4.0.0",
     "@resvg/resvg-js": "^2.6.0",
-    "astro": "^3.6.0",
+    "astro": "^4.0.1",
     "fuse.js": "^6.6.2",
     "github-slugger": "^2.0.0",
     "remark-collapse": "^0.1.2",
@@ -29,9 +29,9 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "@astrojs/react": "^3.0.1",
-    "@astrojs/sitemap": "^3.0.0",
-    "@astrojs/tailwind": "^5.0.0",
+    "@astrojs/react": "^3.0.7",
+    "@astrojs/sitemap": "^3.0.3",
+    "@astrojs/tailwind": "^5.0.3",
     "@babel/core": "^7.22.15",
     "@babel/preset-env": "^7.22.15",
     "@divriots/jampack": "^0.15.0",
