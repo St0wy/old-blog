@@ -4,151 +4,158 @@ import "@styles/base.css";
 
 import Lightbox from "@components/Lightbox.astro";
 import { ViewTransitions } from "astro:transitions";
+import "@fontsource/source-sans-pro";
+import "@fontsource/alegreya";
+import "@fontsource/abeezee";
+import "@fontsource/trykker";
+import "@fontsource-variable/nunito";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
 export interface Props {
-  title?: string;
-  author?: string;
-  description?: string;
-  ogImage?: string;
+	title?: string;
+	author?: string;
+	description?: string;
+	ogImage?: string;
 }
 
 const {
-  title = SITE.title,
-  author = SITE.author,
-  description = SITE.desc,
-  ogImage = SITE.ogImage,
+	title = SITE.title,
+	author = SITE.author,
+	description = SITE.desc,
+	ogImage = SITE.ogImage,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const socialImageURL = new URL(
-  ogImage ? ogImage : SITE.ogImage,
-  Astro.url.origin
+	ogImage ? ogImage : SITE.ogImage,
+	Astro.url.origin
 ).href;
 ---
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <link rel="canonical" href={canonicalURL} />
-    <meta name="generator" content={Astro.generator} />
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+		<link rel="canonical" href={canonicalURL} />
+		<meta name="generator" content={Astro.generator} />
 
-    <Lightbox />
+		<Lightbox />
 
-    <!-- General Meta Tags -->
-    <title>{title}</title>
-    <meta name="title" content={title} />
-    <meta name="description" content={description} />
-    <meta name="author" content={author} />
+		<!-- General Meta Tags -->
+		<title>{title}</title>
+		<meta name="title" content={title} />
+		<meta name="description" content={description} />
+		<meta name="author" content={author} />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:image" content={socialImageURL} />
+		<!-- Open Graph / Facebook -->
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:image" content={socialImageURL} />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={socialImageURL} />
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={canonicalURL} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={socialImageURL} />
 
-    <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"
-      rel="stylesheet"
-    />
+		<!-- Google Font -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"
+			rel="stylesheet"
+		/>
 
-    {
-      // If PUBLIC_GOOGLE_SITE_VERIFICATION is set in the environment variable,
-      // include google-site-verification tag in the heading
-      // Learn more: https://support.google.com/webmasters/answer/9008080#meta_tag_verification&zippy=%2Chtml-tag
-      googleSiteVerification && (
-        <meta
-          name="google-site-verification"
-          content={googleSiteVerification}
-        />
-      )
-    }
+		{
+			// If PUBLIC_GOOGLE_SITE_VERIFICATION is set in the environment variable,
+			// include google-site-verification tag in the heading
+			// Learn more: https://support.google.com/webmasters/answer/9008080#meta_tag_verification&zippy=%2Chtml-tag
+			googleSiteVerification && (
+				<meta
+					name="google-site-verification"
+					content={googleSiteVerification}
+				/>
+			)
+		}
 
-    <script>
-      if (!window.ThemeGlobal) {
-        window.ThemeGlobal = {};
+		<script>
+			if (!window.ThemeGlobal) {
+				window.ThemeGlobal = {};
 
-        const primaryColorScheme = ""; // "light" | "dark"
+				const primaryColorScheme = ""; // "light" | "dark"
 
-        // Get theme data from local storage
-        const currentTheme = localStorage.getItem("theme");
+				// Get theme data from local storage
+				const currentTheme = localStorage.getItem("theme");
 
-        function getPreferTheme() {
-          // return theme value in local storage if it is set
-          if (currentTheme) return currentTheme;
+				function getPreferTheme() {
+					// return theme value in local storage if it is set
+					if (currentTheme) return currentTheme;
 
-          // return primary color scheme if it is set
-          if (primaryColorScheme) return primaryColorScheme;
+					// return primary color scheme if it is set
+					if (primaryColorScheme) return primaryColorScheme;
 
-          // return user device's prefer color scheme
-          return window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light";
-        }
+					// return user device's prefer color scheme
+					return window.matchMedia("(prefers-color-scheme: dark)")
+						.matches
+						? "dark"
+						: "light";
+				}
 
-        let themeValue = getPreferTheme();
+				let themeValue = getPreferTheme();
 
-        function setPreference() {
-          localStorage.setItem("theme", themeValue);
-          reflectPreference();
-        }
+				function setPreference() {
+					localStorage.setItem("theme", themeValue);
+					reflectPreference();
+				}
 
-        function reflectPreference() {
-          document.body.setAttribute("data-theme", themeValue);
-          //   document.firstElementChild.setAttribute("data-theme", themeValue);
+				function reflectPreference() {
+					document.body.setAttribute("data-theme", themeValue);
+					//   document.firstElementChild.setAttribute("data-theme", themeValue);
 
-          document
-            .querySelector("#theme-btn")
-            ?.setAttribute("aria-label", themeValue);
-        }
+					document
+						.querySelector("#theme-btn")
+						?.setAttribute("aria-label", themeValue);
+				}
 
-        // set early so no page flashes / CSS is made aware
-        reflectPreference();
+				// set early so no page flashes / CSS is made aware
+				reflectPreference();
 
-        document.addEventListener(
-          "astro:after-swap",
-          () => {
-            // set on load so screen readers can get the latest value on the button
-            reflectPreference();
+				document.addEventListener(
+					"astro:after-swap",
+					() => {
+						// set on load so screen readers can get the latest value on the button
+						reflectPreference();
 
-            // now this script can find and listen for clicks on the control
-            document
-              .querySelector("#theme-btn")
-              ?.addEventListener("click", () => {
-                themeValue = themeValue === "light" ? "dark" : "light";
-                setPreference();
-              });
-          },
-          { once: false }
-        );
+						// now this script can find and listen for clicks on the control
+						document
+							.querySelector("#theme-btn")
+							?.addEventListener("click", () => {
+								themeValue =
+									themeValue === "light" ? "dark" : "light";
+								setPreference();
+							});
+					},
+					{ once: false }
+				);
 
-        // sync with system changes
-        window
-          .matchMedia("(prefers-color-scheme: dark)")
-          .addEventListener("change", ({ matches: isDark }) => {
-            themeValue = isDark ? "dark" : "light";
-            setPreference();
-          });
-      }
-    </script>
-    <ViewTransitions />
-  </head>
-  <body>
-    <slot />
-  </body>
+				// sync with system changes
+				window
+					.matchMedia("(prefers-color-scheme: dark)")
+					.addEventListener("change", ({ matches: isDark }) => {
+						themeValue = isDark ? "dark" : "light";
+						setPreference();
+					});
+			}
+		</script>
+		<ViewTransitions />
+	</head>
+	<body>
+		<slot />
+	</body>
 </html>
