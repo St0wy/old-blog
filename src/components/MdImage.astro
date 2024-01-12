@@ -3,7 +3,7 @@ const props = Astro.props;
 
 import { Image } from "astro:assets";
 
-const images = import.meta.glob(
+const images = import.meta.glob<{ default: ImageMetadata }>(
 	"/src/assets/**/*.{jpeg,jpg,png,gif,avif,webp,svg}"
 );
 ---
