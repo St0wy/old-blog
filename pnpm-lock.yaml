@@ -14,27 +14,9 @@ dependencies:
   '@astrojs/rss':
     specifier: ^4.0.0
     version: 4.0.0
-  '@fontsource-variable/nunito':
-    specifier: ^5.0.17
-    version: 5.0.17
-  '@fontsource/abeezee':
-    specifier: ^5.0.8
-    version: 5.0.8
-  '@fontsource/alegreya':
-    specifier: ^5.0.8
-    version: 5.0.8
-  '@fontsource/ibm-plex-sans':
-    specifier: ^5.0.18
-    version: 5.0.18
   '@fontsource/noto-sans':
     specifier: ^5.0.18
     version: 5.0.18
-  '@fontsource/source-sans-pro':
-    specifier: ^5.0.8
-    version: 5.0.8
-  '@fontsource/trykker':
-    specifier: ^5.0.8
-    version: 5.0.8
   '@resvg/resvg-js':
     specifier: ^2.6.0
     version: 2.6.0
@@ -1970,32 +1952,8 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@fontsource-variable/nunito@5.0.17:
-    resolution: {integrity: sha512-e9F+nYc8610HtmVB08kKzHdythbSJBN9CyV3ODzCAs2LuoOviAndYdNfKOw6rHqOh3j99gfOSNlHpLNNF9O5OA==}
-    dev: false
-
-  /@fontsource/abeezee@5.0.8:
-    resolution: {integrity: sha512-tadN2LmlshaMbzNbhPkckv2CUjs0IeL6ATL/OKPkd/WOjagpHyiwC5XnITPZ3XQNpSYaE9bmNBEI4pBCnOTARA==}
-    dev: false
-
-  /@fontsource/alegreya@5.0.8:
-    resolution: {integrity: sha512-f9B9ni40u2KKs6xmMWrcB3uDhQvoxkUl7DCRoYMPwhaVtBbmAt8dOIJ8+ETUtCRcAbDp4VGVJ7yNK+ubGItfuw==}
-    dev: false
-
-  /@fontsource/ibm-plex-sans@5.0.18:
-    resolution: {integrity: sha512-xdtDTt5Ifdjdx//R8aAskULQuNR34D81pYTaZtk3q3fE7Fh2UDGHKCvlAoChG9NajThoLN+8PCrT0/cy/Dt5jg==}
-    dev: false
-
   /@fontsource/noto-sans@5.0.18:
     resolution: {integrity: sha512-tPMBWiI268eApqBl6QyAH0I3dvLaHuECJ9H1S0Ve2qd380tuPcHSJaeBv4CEha643hJ+KH1Nm7FnHhQSeZvHHw==}
-    dev: false
-
-  /@fontsource/source-sans-pro@5.0.8:
-    resolution: {integrity: sha512-5U2UvIYRkCMozZ388gCE73PEpa2MFgN/0t9O4a1FF7bGT/MIneQWSL1XpWZ8iMVYdh6ntxRf3iFA6slCIuFgkg==}
-    dev: false
-
-  /@fontsource/trykker@5.0.8:
-    resolution: {integrity: sha512-HaTm4BGA1ltMVhN063VBwx+5rlY+Svt71hBcxIQ0eEH+3FtgbTRv/wv2O+PNu1zmaMaGu5DBYlIIc0L6DL+CpQ==}
     dev: false
 
   /@humanwhocodes/config-array@0.11.11:
