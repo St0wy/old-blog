@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+	font-family: "Argon";
+	src: url("/fonts/MonaspaceArgonVarVF.woff2") format("woff2");
+}
+
 @layer base {
 	:root,
 	body[data-theme="light"] {
@@ -40,11 +45,11 @@
 		@apply outline-2 outline-offset-1 outline-skin-fill 
     focus-visible:no-underline focus-visible:outline-dashed;
 	}
-	h1,
+	/* h1,
 	h2,
 	h3 {
 		@apply font-serif;
-	}
+	} */
 	svg {
 		@apply inline-block h-6 w-6 fill-skin-base group-hover:fill-skin-accent;
 	}
