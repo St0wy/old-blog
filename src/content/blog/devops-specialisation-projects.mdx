@@ -31,9 +31,35 @@ It's just the name we gave to this task, even though it doesn't fit the real def
 
 ## The Server
 
+TODO : PICTURE OF COMPUTER
+
+For these projects, we (the students) are usually supposed to host the tools on a server that's inside the school.
+But unfortunately, when we started the projects, the WiFi at school wasn't working, so we couldn't do that.
+So that we weren't stuck, I decided that we could instead host everything on my old gaming computer at home.
+But since it was supposed to be a temporary solution, I though it would be faster to set up a GitLab instance, instead of Perforce.
+We were also supposed to use [Jira](https://www.atlassian.com/fr/software/jira), but we didn't know if we could get a license, and if we could get it working on my server.
+So we also decided to use an alternative : [Trello](https://trello.com/).
+
+![Screenshot of the Trello board of Project Girl and Kitty](/src/assets/devops/trello.png)
+
+The first thing I needed was to install Linux on my machine.
+I knew that [Ubuntu Server](https://ubuntu.com/download/server) was a pretty wiedly used distribution for home servers, so I tried to install it.
+But it kept failling with a Python exception I think related to an old partition name in of the drives of the computer, even though I wiped it beforehand.
+
+After trying multiple times, I gave up Ubuntu Server, and decided to try [Debian](https://www.debian.org/).
+Fortunately, it immediately worked, and I had a Linux installation working !
+
+I was then able to install a few packages, so that I could use `sudo` and `ssh`.
+
+Debian comes with an Apache install, and I wanted to check that port forwarding was working with it.
+I already had a domain name, so I hit one bird with two stones and directly put my computer's IP in my registrar after opening my port and checked if it was working.
+
+But here comes the start of the problems : my ISP, Salt, does not provide a public IPv4, which means that we couldn't access the server 
+
+TODO : FINISH PHRASE
+
 TODO
 
-- Machine Presentation
 - Ubuntu Server
 - Debian
 - SSH
