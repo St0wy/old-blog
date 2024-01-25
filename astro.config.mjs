@@ -54,6 +54,8 @@ export default defineConfig({
 				"cmake",
 				"rust",
 				"csharp",
+				"bash",
+				"ruby",
 			],
 		},
 		extendDefaultPlugins: true,
