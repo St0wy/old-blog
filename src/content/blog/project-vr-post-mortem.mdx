@@ -17,17 +17,69 @@ description: Post-Mortem of Project VR, a game made for the Specialisation Proje
 
 ## Context
 
+During the 3rd year of studies at SAE Institute, the Game Programming, Game Art and Audio Engineering students are tasked to make a game together. This year, it was a bit special, since we made two games instead of one. One of them is a puzzle adventure game where you play a girl and a cat solving puzzles in dreamlike worlds (Project Girl and Kitty). The other one is a VR game inspired by escape rooms where you have to solve puzzles to get out of a room with a dead body (Project VR). This document is only about Project VR.
+
+The pre-production was supposed to be from June 2023 to September 2023, but Project VR had delays that pushed it to October. The production of a vertical slice of the game lasted until February the 9th. The goal is not to have a full game, but to demonstrate a part of it with the quality pushed to the maximum.
+
 ### Constraints and Pitch
 
+For this project, we had constraints imposed by our teacher, Elias Farhan. These where : 
+- Using Unreal Engine 5
+- Making a VR game
+- Start the project with the provided pitch
+
+The pitch was : 
+
+ > Project VR is a virtual reality puzzle game where the main character, in the midst of a hangover, must reconstruct the events of the previous day by solving puzzles in their closed apartment.
+
 ### Team
+
+The team was split into three teams : Programming, Art and Audio. Each person also had a more specific role. For the artists, it was assigned by the teacher, as for the programmers, it appeared from the skills of each and everyone.
+
+The goal was for the audio team to be able to work on the game though a WWise session hosted on a perforce server. However, during the production, we weren’t able to set that up. Meaning that we couldn’t have help from the Audio section on this project.
+
+#### Stakeholders
+- Elias Farhan (Head Game Programming)
+- Nicolas Vallée (Head Game Art)
+- Stéphane Chapelle (Head Audio)
+- Nicolas Brière (Project Guidance)
+
+#### Programmers
+- Samuel (Producer)
+- Benjamin (Programmer and Game Designer)
+- Edouard (Programmer and Game Designer)
+- Fabian (Product Owner and SysAdmin)
+
+
+#### Artists
+- Jessica (Lead Props / FX)
+- Eliot (Lead UI)
+- Jeremy (Lead R&D)
+- Aliya (Lead Concepts / Character)
+- Aurore (Lead Environnement / Animations / Intégration)
 
 ## Project
 
 ### Artistic Direction
+The artistic direction has a first proposal made by the Head of the Game Art section. Then, the students added more things to it.
+
+For the graphic style, it would be inspired by *Overwatch*, *Paladin*, *Dauntless* and *Agents of Mayhem*. As for the palette and atmosphere, it is inspired by *Team Fortress 2*, *Sky: Children of the Light* and *Ratchet & Clank* and finally, for the environment, it is inspired by *NiBiRu: Age of Secrets* and *Black Mirror*.
+
+![Concept art of Project VR](/src/assets/postmortem/concept_project_vr.png)
 
 ### Production Tools
 
+The game is made on Unreal Engine 5. We mostly used blueprints, so we rarely had to use an IDE, but when we did, we used Visual Studio 2022. The project’s source was hosted on a Git repository located on a self-hosted GitLab instance. The assets were hosted on a Nextcloud instance. The hard-surface models were made using Maya or 3DS Max. As for the organic meshes, they were made on ZBrush. As for the texture, the artists used Substance Painter.
+
 ### Organization
+
+At the start of the project, we received a production lesson from William Marié, a Producer at Old Skull Games. This is what guided us for the biggest part of our organization.
+
+There were two management roles in the group : Samuel as Producer and Fabian as Product Owner. As a Producer, Samuel’s role was to keep a good group dynamic. As for Fabian, his responsibility was to define what tasks (user stories) were to be done by the team for the following sprint. A sprint is a 2 week period where the team tries to do a set amount of work. Each task has an intensity attached to it. It is similar to the time it takes to do, but it is not exactly the same. This intensity is supposed to serve as a guide on if there was too much or too little work during the sprint. However, this metric was not very useful on this project, since the amount of time everyone could put on the project varied frequently and it was hard to estimate the duration of tasks that we never did before.
+
+At the end of each sprint, we did a Sprint Review / Sprint Planning / Sprint Retrospective (yes, all at the same time !). This is taken from the SCRUM method. The goal was for people to be able to tell their frustrations with the production and to improve things as they were advancing. We had to merge the three meetings into one, since there were very few moments where we could bring everyone together in the same room. Unfortunately, this was also not very effective, since the members of the team didn’t feel safe expressing their opinions in such a formal format.
+
+In parallel to the sprint reviews, we did weekly meetings on Fridays with Elias Farhan where we presented the work we did during the week. The goal of this meeting was mostly for Elias to see who did what and to raise red flags if he saw any. We could also ask him questions and guidance.
 
 ### My Role
 
@@ -36,3 +88,5 @@ description: Post-Mortem of Project VR, a game made for the Specialisation Proje
 ### What I Learned
 
 ## Conclusion
+
+This project was a really hard one. The problems piled up and it was really hard to advance. Although the end result is way below what we expected, I think we can still say that we did our best despite the difficulties.
